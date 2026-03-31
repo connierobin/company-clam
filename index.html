@@ -27,6 +27,56 @@
     @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
     .fade-up { animation: fadeUp 0.4s ease forwards; }
     .photo-thumb { aspect-ratio: 4/3; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+
+    /* ── Clamera ── */
+    #cameraModal { background: #000; }
+    .grid-lines {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px);
+      background-size: 33.333% 33.333%;
+    }
+    .focus-box {
+      position: absolute; width: 80px; height: 80px;
+      border: 2px solid #fbbf24;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+    .focus-box::before, .focus-box::after,
+    .focus-box-inner::before, .focus-box-inner::after {
+      content: ''; position: absolute; width: 12px; height: 12px;
+    }
+    @keyframes focusPulse {
+      0%   { transform: translate(-50%,-50%) scale(1.4); opacity: 0; }
+      40%  { opacity: 1; }
+      100% { transform: translate(-50%,-50%) scale(1);   opacity: 1; }
+    }
+    .focus-animate { animation: focusPulse 0.35s ease forwards; }
+    @keyframes flashAnim {
+      0%   { opacity: 0.9; }
+      100% { opacity: 0; }
+    }
+    .do-flash { animation: flashAnim 0.25s ease forwards; }
+    @keyframes toastIn {
+      0%   { opacity: 0; transform: translateY(10px); }
+      20%  { opacity: 1; transform: translateY(0); }
+      75%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .toast-anim { animation: toastIn 1.8s ease forwards; }
+    .shutter-btn {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: white; border: 4px solid rgba(255,255,255,0.4);
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.15);
+      transition: transform 0.1s ease;
+    }
+    .shutter-btn:active { transform: scale(0.92); }
+    .camera-thumb {
+      width: 52px; height: 52px; border-radius: 10px;
+      overflow: hidden; border: 2px solid rgba(255,255,255,0.3);
+      background: #1e293b; cursor: pointer;
+    }
   </style>
 </head>
 <body class="bg-white text-slate-800 antialiased">
@@ -45,6 +95,9 @@
       <a href="#generator" class="hover:text-white transition-colors">Projects</a>
       <a href="#testimonials" class="hover:text-white transition-colors">Reviews</a>
       <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
+      <button onclick="openCamera()" class="flex items-center gap-1.5 text-teal-400 hover:text-teal-300 transition-colors font-semibold">
+        <span>📷</span> Clamera
+      </button>
     </div>
     <!-- CTAs -->
     <div class="flex items-center gap-3">
@@ -373,6 +426,102 @@
   </div>
 </footer>
 
+<!-- ── CLAMERA MODAL ───────────────────────────────────────── -->
+<div id="cameraModal" class="hidden fixed inset-0 z-50 flex flex-col select-none">
+
+  <!-- Status bar -->
+  <div class="flex items-center justify-between px-5 pt-3 pb-1 z-10">
+    <span id="cameraTime" class="text-white text-sm font-semibold tracking-tight">9:41</span>
+    <div class="flex items-center gap-1.5 text-white text-xs">
+      <svg width="16" height="11" viewBox="0 0 16 11" fill="white" opacity="0.9"><rect x="0" y="4" width="3" height="7" rx="0.5"/><rect x="4.5" y="2.5" width="3" height="8.5" rx="0.5"/><rect x="9" y="1" width="3" height="10" rx="0.5"/><rect x="13.5" y="0" width="2.5" height="11" rx="0.5"/></svg>
+      <svg width="15" height="11" viewBox="0 0 15 11" fill="white" opacity="0.9"><path d="M7.5 2C4.9 2 2.6 3.1 1 4.9L0 3.8C1.9 1.7 4.5 0.5 7.5 0.5S13.1 1.7 15 3.8L14 4.9C12.4 3.1 10.1 2 7.5 2Z"/><path d="M7.5 5C5.9 5 4.5 5.7 3.5 6.8L2.5 5.7C3.8 4.3 5.5 3.5 7.5 3.5S11.2 4.3 12.5 5.7L11.5 6.8C10.5 5.7 9.1 5 7.5 5Z"/><circle cx="7.5" cy="9" r="1.5"/></svg>
+      <span class="text-white text-xs">🔋</span>
+    </div>
+  </div>
+
+  <!-- Viewfinder -->
+  <div class="flex-1 relative overflow-hidden">
+    <img id="cameraImg" src="" alt="" class="absolute inset-0 w-full h-full object-cover" />
+    <!-- Loading state -->
+    <div id="cameraLoading" class="absolute inset-0 bg-slate-900 flex items-center justify-center">
+      <div class="text-center text-slate-400">
+        <div class="text-5xl mb-3 animate-pulse">🐚</div>
+        <div class="text-sm">Searching for clams…</div>
+      </div>
+    </div>
+    <!-- Grid -->
+    <div class="grid-lines"></div>
+    <!-- Focus box -->
+    <div id="focusBox" class="focus-box"></div>
+    <!-- Clam detected label -->
+    <div id="clamDetected" class="absolute top-[calc(50%-56px)] left-1/2 -translate-x-1/2 text-yellow-400 text-xs font-bold tracking-widest opacity-0 transition-opacity whitespace-nowrap">CLAM DETECTED ✓</div>
+    <!-- Camera stats top-left -->
+    <div class="absolute top-4 left-4 text-white text-xs font-mono space-y-0.5 drop-shadow-lg">
+      <div id="camISO">ISO 400</div>
+      <div id="camAperture">f/2.8</div>
+      <div id="camShutter">1/125s</div>
+    </div>
+    <!-- Location top-right -->
+    <div class="absolute top-4 right-4 text-white text-xs text-right drop-shadow-lg">
+      <div>📍 Ocean Floor, CA</div>
+      <div id="cameraDepth" class="text-white/70">40 fathoms</div>
+    </div>
+    <!-- CompanyClam badge -->
+    <div class="absolute bottom-3 left-4 flex items-center gap-1.5 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1">
+      <span class="text-sm">🐚</span>
+      <span class="text-white text-xs font-semibold tracking-wide">CLAMERA</span>
+    </div>
+    <!-- Photo count badge -->
+    <div class="absolute bottom-3 right-4 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1">
+      <span id="photoCountBadge" class="text-white text-xs font-semibold">0 clams documented</span>
+    </div>
+    <!-- Flash overlay -->
+    <div id="cameraFlash" class="absolute inset-0 bg-white opacity-0 pointer-events-none"></div>
+    <!-- Toast -->
+    <div id="cameraToast" class="hidden absolute bottom-16 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-sm text-white text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap"></div>
+  </div>
+
+  <!-- Mode bar -->
+  <div class="bg-black/80 backdrop-blur-sm pt-3 pb-1">
+    <div class="flex justify-center gap-6 text-xs font-semibold tracking-widest">
+      <span class="text-slate-600">VIDEO</span>
+      <span class="text-slate-600">PHOTO</span>
+      <span class="text-yellow-400 border-b border-yellow-400 pb-1">CLAM</span>
+      <span class="text-slate-600">PORTRAIT</span>
+      <span class="text-slate-600">MORE</span>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="bg-black flex items-center justify-between px-10 py-6">
+    <!-- Last photo thumbnail -->
+    <div class="camera-thumb" onclick="openRoll()">
+      <div id="thumbEmpty" class="w-full h-full flex items-center justify-center text-slate-600 text-xl">🐚</div>
+      <img id="thumbImg" src="" alt="" class="hidden w-full h-full object-cover" />
+    </div>
+
+    <!-- Shutter -->
+    <button class="shutter-btn" onclick="takePhoto()"></button>
+
+    <!-- Flip / close -->
+    <button onclick="closeCamera()" class="w-[52px] h-[52px] rounded-full bg-slate-800 flex items-center justify-center text-white text-lg hover:bg-slate-700 transition-colors">
+      ✕
+    </button>
+  </div>
+</div>
+
+<!-- ── PHOTO ROLL MODAL ────────────────────────────────────── -->
+<div id="rollModal" class="hidden fixed inset-0 z-[60] bg-black/90 backdrop-blur-sm flex flex-col">
+  <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
+    <h3 class="text-white font-bold text-lg">🐚 Clam Roll</h3>
+    <button onclick="document.getElementById('rollModal').classList.add('hidden')" class="text-slate-400 hover:text-white text-xl">✕</button>
+  </div>
+  <div id="rollGrid" class="flex-1 overflow-y-auto p-4 grid grid-cols-3 gap-2"></div>
+  <div class="px-6 py-4 border-t border-white/10 text-center">
+    <p id="rollEmpty" class="text-slate-500 text-sm">No clams documented yet. Hit the shutter.</p>
+  </div>
+</div>
+
 <!-- ── PHOTO MODAL ─────────────────────────────────────────── -->
 <div id="photoModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-6" onclick="closeModal(event)">
   <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden" onclick="event.stopPropagation()">
@@ -512,6 +661,147 @@
 
   function closeModal(e) {
     document.getElementById('photoModal').classList.add('hidden');
+  }
+
+  // ── Clamera ──────────────────────────────────────────────
+  // loremflickr.com returns real Flickr photos by keyword, free, no API key
+  const CLAM_LOCKS = [1,4,7,12,17,23,28,35,41,47,52,58,63,69,74,80,85,91,96,102];
+  const CLAM_WORDS = ['clam','oyster','mussel','scallop','clam,shellfish','oyster,shell'];
+  const CAM_STATS = [
+    ['ISO 200','f/1.8','1/250s'], ['ISO 400','f/2.8','1/125s'],
+    ['ISO 800','f/4.0','1/60s'],  ['ISO 100','f/1.4','1/500s'],
+    ['ISO 640','f/2.0','1/200s'],
+  ];
+  const DEPTHS  = ['28 fathoms','40 fathoms','12 fathoms','55 fathoms','6 fathoms','100 fathoms (deep)'];
+  const TOASTS  = [
+    '🐚 Clam documented.',
+    '📸 Added to project.',
+    '🦪 Pearl-worthy shot.',
+    '✓ Field team notified.',
+    '📍 Location tagged: Ocean Floor.',
+    '🌊 Nice. Very nice.',
+    '🐠 A fish photo-bombed. We cropped it.',
+    '💰 That clam is worth at least $4.',
+  ];
+
+  let cameraLockIdx = 0;
+  let cameraWordIdx = 0;
+  let photoCount    = 0;
+  let rollPhotos    = [];
+
+  function nextClamUrl() {
+    const word = CLAM_WORDS[cameraWordIdx % CLAM_WORDS.length];
+    const lock = CLAM_LOCKS[cameraLockIdx % CLAM_LOCKS.length];
+    cameraLockIdx++;
+    if (cameraLockIdx % CLAM_LOCKS.length === 0) cameraWordIdx++;
+    return `https://loremflickr.com/800/1200/${word}?lock=${lock}`;
+  }
+
+  function loadNextClam(isFirst) {
+    const img  = document.getElementById('cameraImg');
+    const load = document.getElementById('cameraLoading');
+    const url  = nextClamUrl();
+
+    load.classList.remove('hidden');
+    img.classList.add('opacity-0');
+
+    const tmp = new Image();
+    tmp.onload = () => {
+      img.src = url;
+      img.classList.remove('opacity-0');
+      load.classList.add('hidden');
+      // animate focus box
+      const box = document.getElementById('focusBox');
+      const det = document.getElementById('clamDetected');
+      box.classList.remove('focus-animate');
+      void box.offsetWidth;
+      box.classList.add('focus-animate');
+      det.style.opacity = '1';
+      setTimeout(() => { det.style.opacity = '0'; }, 1400);
+      // randomize stats
+      const stats = CAM_STATS[Math.floor(Math.random() * CAM_STATS.length)];
+      document.getElementById('camISO').textContent     = stats[0];
+      document.getElementById('camAperture').textContent = stats[1];
+      document.getElementById('camShutter').textContent  = stats[2];
+      document.getElementById('cameraDepth').textContent = DEPTHS[Math.floor(Math.random() * DEPTHS.length)];
+    };
+    tmp.onerror = () => {
+      // if image fails, just show a clam emoji fallback
+      load.innerHTML = '<div class="text-center text-slate-400"><div class="text-7xl mb-3">🐚</div><div class="text-sm">Clam unavailable at this depth.</div></div>';
+    };
+    tmp.src = url;
+    return url;
+  }
+
+  function openCamera() {
+    document.getElementById('cameraModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    updateCameraTime();
+    loadNextClam(true);
+  }
+
+  function closeCamera() {
+    document.getElementById('cameraModal').classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  function takePhoto() {
+    const flash = document.getElementById('cameraFlash');
+    flash.classList.remove('do-flash');
+    void flash.offsetWidth;
+    flash.classList.add('do-flash');
+
+    const currentUrl = document.getElementById('cameraImg').src;
+    if (currentUrl && !currentUrl.includes('blob')) {
+      rollPhotos.push(currentUrl);
+      photoCount++;
+      // update thumbnail
+      document.getElementById('thumbEmpty').classList.add('hidden');
+      const thumbImg = document.getElementById('thumbImg');
+      thumbImg.src = currentUrl;
+      thumbImg.classList.remove('hidden');
+      // update count badge
+      document.getElementById('photoCountBadge').textContent =
+        `${photoCount} clam${photoCount === 1 ? '' : 's'} documented`;
+    }
+
+    // toast
+    const toast = document.getElementById('cameraToast');
+    const msg   = TOASTS[Math.floor(Math.random() * TOASTS.length)];
+    toast.textContent = msg;
+    toast.classList.remove('hidden', 'toast-anim');
+    void toast.offsetWidth;
+    toast.classList.add('toast-anim');
+    setTimeout(() => toast.classList.add('hidden'), 1900);
+
+    // load next clam after a beat
+    setTimeout(() => loadNextClam(false), 300);
+  }
+
+  function openRoll() {
+    const modal = document.getElementById('rollModal');
+    const grid  = document.getElementById('rollGrid');
+    const empty = document.getElementById('rollEmpty');
+    grid.innerHTML = '';
+    if (rollPhotos.length === 0) {
+      empty.classList.remove('hidden');
+    } else {
+      empty.classList.add('hidden');
+      rollPhotos.forEach(url => {
+        const img = document.createElement('img');
+        img.src   = url;
+        img.className = 'aspect-square object-cover rounded-lg';
+        grid.appendChild(img);
+      });
+    }
+    modal.classList.remove('hidden');
+  }
+
+  function updateCameraTime() {
+    const now = new Date();
+    const h   = now.getHours() % 12 || 12;
+    const m   = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('cameraTime').textContent = `${h}:${m}`;
   }
 
   // Smooth scroll for nav links
