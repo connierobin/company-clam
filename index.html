@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CompanyClam — Job Site Documentation for Underwater Contractors</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-hero { background: linear-gradient(135deg, #0c1f2e 0%, #0f3d4a 60%, #0d4f4a 100%); }
+    .gradient-cta  { background: linear-gradient(135deg, #0d9488 0%, #0891b2 100%); }
+    .card-hover    { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.12); }
+    .badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 9999px; font-size: 12px; font-weight: 600; }
+    .badge-green  { background: #dcfce7; color: #15803d; }
+    .badge-yellow { background: #fef9c3; color: #a16207; }
+    .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+    .badge-red    { background: #fee2e2; color: #b91c1c; }
+    .badge-gray   { background: #f1f5f9; color: #475569; }
+    .pulse-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+    .pulse-dot.green  { background: #22c55e; }
+    .pulse-dot.yellow { background: #eab308; }
+    .pulse-dot.blue   { background: #3b82f6; }
+    .pulse-dot.red    { background: #ef4444; }
+    .pulse-dot.gray   { background: #94a3b8; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up { animation: fadeUp 0.4s ease forwards; }
+    .photo-thumb { aspect-ratio: 4/3; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+  </style>
+</head>
+<body class="bg-white text-slate-800 antialiased">
+
+<!-- ── NAV ────────────────────────────────────────────────── -->
+<nav class="gradient-hero sticky top-0 z-50 border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-2.5 text-white font-bold text-xl tracking-tight">
+      <span class="text-2xl">🐚</span>
+      <span>Company<span class="text-teal-400">Clam</span></span>
+    </a>
+    <!-- Links -->
+    <div class="hidden md:flex items-center gap-8 text-sm text-slate-300 font-medium">
+      <a href="#features" class="hover:text-white transition-colors">Features</a>
+      <a href="#generator" class="hover:text-white transition-colors">Projects</a>
+      <a href="#testimonials" class="hover:text-white transition-colors">Reviews</a>
+      <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
+    </div>
+    <!-- CTAs -->
+    <div class="flex items-center gap-3">
+      <a href="#" class="hidden md:block text-sm text-slate-300 hover:text-white font-medium transition-colors">Sign In</a>
+      <a href="#generator" class="gradient-cta text-white text-sm font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
+        Get Started Free
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ───────────────────────────────────────────────── -->
+<section class="gradient-hero text-white py-20 md:py-28">
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+    <!-- Copy -->
+    <div>
+      <div class="inline-flex items-center gap-2 bg-teal-500/20 border border-teal-500/30 text-teal-300 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
+        🏆 #1 Job Documentation App for Underwater Contractors
+      </div>
+      <h1 class="text-5xl md:text-6xl font-black leading-tight mb-6">
+        Close more<br/><span class="text-teal-400">clams.</span>
+      </h1>
+      <p class="text-lg text-slate-300 mb-8 leading-relaxed max-w-md">
+        CompanyClam gives underwater construction teams the tools to document every phase of a project — from the first crack of the shell to final close-out. Built for contractors who really know how to open things up.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a href="#generator" class="gradient-cta text-white font-bold px-6 py-3 rounded-xl hover:opacity-90 transition-opacity text-base">
+          Start for Free
+        </a>
+        <a href="#features" class="bg-white/10 border border-white/20 text-white font-semibold px-6 py-3 rounded-xl hover:bg-white/20 transition-colors text-base">
+          See How It Works
+        </a>
+      </div>
+      <p class="mt-5 text-slate-400 text-sm">No credit card required. Just a clam.</p>
+    </div>
+
+    <!-- Fake App Screenshot -->
+    <div class="bg-slate-900/70 border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+      <!-- fake top bar -->
+      <div class="bg-slate-800/80 px-4 py-3 flex items-center justify-between border-b border-white/10">
+        <div class="flex items-center gap-2">
+          <span class="text-teal-400 font-semibold text-sm">🐚 All Projects</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="bg-teal-600 text-white text-xs font-bold px-3 py-1 rounded-lg">+ New Project</div>
+        </div>
+      </div>
+      <!-- fake project rows -->
+      <div class="divide-y divide-white/5">
+        <div class="px-4 py-3 flex items-center justify-between hover:bg-white/5">
+          <div>
+            <div class="text-sm font-semibold text-white">Pearl Installation – Malibu</div>
+            <div class="text-xs text-slate-400 mt-0.5">Pacific Shellworks · Updated 2h ago</div>
+          </div>
+          <span class="badge badge-green"><span class="pulse-dot green"></span>In Progress</span>
+        </div>
+        <div class="px-4 py-3 flex items-center justify-between hover:bg-white/5">
+          <div>
+            <div class="text-sm font-semibold text-white">Tide Gate Repair – Reef District</div>
+            <div class="text-xs text-slate-400 mt-0.5">DeepFix LLC · Updated 5h ago</div>
+          </div>
+          <span class="badge badge-green"><span class="pulse-dot green"></span>In Progress</span>
+        </div>
+        <div class="px-4 py-3 flex items-center justify-between hover:bg-white/5">
+          <div>
+            <div class="text-sm font-semibold text-white">Barnacle Removal – Historic Site</div>
+            <div class="text-xs text-slate-400 mt-0.5">Coastal Scrape Co. · Updated 1d ago</div>
+          </div>
+          <span class="badge badge-yellow"><span class="pulse-dot yellow"></span>On Hold</span>
+        </div>
+        <div class="px-4 py-3 flex items-center justify-between hover:bg-white/5">
+          <div>
+            <div class="text-sm font-semibold text-white">Shell Renovation – Open Concept</div>
+            <div class="text-xs text-slate-400 mt-0.5">ShellCraft Bros · Updated 3d ago</div>
+          </div>
+          <span class="badge badge-blue"><span class="pulse-dot blue"></span>Just Opened</span>
+        </div>
+        <div class="px-4 py-3 flex items-center justify-between hover:bg-white/5">
+          <div>
+            <div class="text-sm font-semibold text-white">Coral Reinforcement – Sector 7</div>
+            <div class="text-xs text-slate-400 mt-0.5">ReefStrong · Updated 1w ago</div>
+          </div>
+          <span class="badge badge-red"><span class="pulse-dot red"></span>Clamped Shut</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SOCIAL PROOF BAR ───────────────────────────────────── -->
+<div class="bg-slate-50 border-y border-slate-100 py-5">
+  <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-center gap-x-12 gap-y-3 text-slate-500 text-sm font-medium">
+    <span>🐟 Trusted by <strong class="text-slate-700">4,200+</strong> underwater contractors</span>
+    <span>📸 <strong class="text-slate-700">28M+</strong> job site photos documented</span>
+    <span>💰 <strong class="text-slate-700">$340M</strong> in clams tracked annually</span>
+    <span>⭐ <strong class="text-slate-700">4.9/5</strong> in the App Reef Store</span>
+  </div>
+</div>
+
+<!-- ── PROJECT GENERATOR ──────────────────────────────────── -->
+<section id="generator" class="py-20 bg-white">
+  <div class="max-w-3xl mx-auto px-6 text-center">
+    <p class="text-teal-600 font-semibold text-sm uppercase tracking-widest mb-3">Try the Demo</p>
+    <h2 class="text-4xl font-black text-slate-900 mb-4">What's your next project?</h2>
+    <p class="text-slate-500 text-lg mb-10">Click below and we'll surface a real opportunity from the field. These are actual projects. Please do not call these contractors.</p>
+
+    <button
+      id="generateBtn"
+      onclick="generateProject()"
+      class="gradient-cta text-white font-bold px-8 py-4 rounded-2xl text-lg hover:opacity-90 transition-opacity shadow-lg shadow-teal-500/25 active:scale-95 transition-transform"
+    >
+      🐚 Generate a Project
+    </button>
+
+    <!-- Project Card (hidden until generated) -->
+    <div id="projectCard" class="hidden mt-10 text-left bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden fade-up">
+      <!-- Card header -->
+      <div class="bg-gradient-to-r from-slate-800 to-slate-700 px-6 py-4 flex items-start justify-between">
+        <div>
+          <div id="cardStatus" class="badge badge-green mb-2"><span class="pulse-dot green"></span>In Progress</div>
+          <h3 id="cardName" class="text-xl font-black text-white"></h3>
+          <p id="cardContractor" class="text-slate-400 text-sm mt-1"></p>
+        </div>
+        <div class="text-right">
+          <div class="text-slate-400 text-xs mb-1">Project Value</div>
+          <div id="cardValue" class="text-teal-400 font-black text-xl"></div>
+        </div>
+      </div>
+      <!-- Card body -->
+      <div class="px-6 py-5">
+        <p id="cardDesc" class="text-slate-600 leading-relaxed mb-5"></p>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-4 text-sm text-slate-500">
+            <span id="cardPhotos">📸 0 photos</span>
+            <span id="cardDays">📅 Day 1</span>
+            <span id="cardTeam">👷 — on site</span>
+          </div>
+          <button
+            onclick="viewPhotos()"
+            class="bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+          >
+            View Photos
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ───────────────────────────────────────────── -->
+<section id="features" class="py-20 bg-slate-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <p class="text-teal-600 font-semibold text-sm uppercase tracking-widest mb-3">Features</p>
+      <h2 class="text-4xl font-black text-slate-900 mb-4">Everything you need to run a tight ship.<br/>Or a tight shell. Whatever.</h2>
+      <p class="text-slate-500 text-lg max-w-2xl mx-auto">CompanyClam is purpose-built for the unique challenges of working in a moist, pressurized, legally murky environment.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white rounded-2xl p-6 border border-slate-100 card-hover">
+        <div class="text-4xl mb-4">📷</div>
+        <h3 class="font-bold text-slate-900 text-lg mb-2">Shell Documentation</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">Capture every phase of your project, from first crack to final close. Our photo tools work at any depth. We asked a diver.</p>
+      </div>
+      <div class="bg-white rounded-2xl p-6 border border-slate-100 card-hover">
+        <div class="text-4xl mb-4">📡</div>
+        <h3 class="font-bold text-slate-900 text-lg mb-2">Clam-to-Office Comms</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">Field teams and office staff, finally on the same tide. Real-time updates flow seamlessly, except during storm surges. We're working on it.</p>
+      </div>
+      <div class="bg-white rounded-2xl p-6 border border-slate-100 card-hover">
+        <div class="text-4xl mb-4">🦪</div>
+        <h3 class="font-bold text-slate-900 text-lg mb-2">Pearl Reports</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">Automatically surface your most valuable project insights. Our AI scans every project and tells you which ones are worth opening.</p>
+      </div>
+      <div class="bg-white rounded-2xl p-6 border border-slate-100 card-hover">
+        <div class="text-4xl mb-4">📊</div>
+        <h3 class="font-bold text-slate-900 text-lg mb-2">Clam Timeline</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">See the full history of every project, laid out flat like a good piece of shell. Hinges included. Siphon tracking coming Q3.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ───────────────────────────────────────── -->
+<section id="testimonials" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <p class="text-teal-600 font-semibold text-sm uppercase tracking-widest mb-3">Customer Stories</p>
+      <h2 class="text-4xl font-black text-slate-900 mb-4">Don't take our word for it.</h2>
+      <p class="text-slate-500 text-lg">Hear from contractors who've been in the trenches. The underwater trenches.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100 card-hover">
+        <div class="flex text-teal-500 text-lg mb-4">★★★★★</div>
+        <p class="text-slate-700 leading-relaxed mb-6 text-base">"Before CompanyClam, I was losing track of every project. Now I know exactly where each clam stands at any moment. My close rate is up 40%. Coincidence? I clam not."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-lg">🦀</div>
+          <div>
+            <div class="font-bold text-slate-900 text-sm">Derek M.</div>
+            <div class="text-slate-500 text-xs">Pacific Shellworks · Founder</div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100 card-hover">
+        <div class="flex text-teal-500 text-lg mb-4">★★★★★</div>
+        <p class="text-slate-700 leading-relaxed mb-6 text-base">"Finally, an app that gets underwater construction. The photo documentation alone is worth every penny — or should I say, every clam. We've documented 4,000 barnacle removals this year alone."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-lg">🐙</div>
+          <div>
+            <div class="font-bold text-slate-900 text-sm">Sandra P.</div>
+            <div class="text-slate-500 text-xs">Reef Infrastructure LLC · CEO</div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-slate-50 rounded-2xl p-8 border border-slate-100 card-hover">
+        <div class="flex text-teal-500 text-lg mb-4">★★★★★</div>
+        <p class="text-slate-700 leading-relaxed mb-6 text-base">"I was skeptical at first. My old software was fine. But CompanyClam just really opened things up for us. Genuinely opened. We did a shell renovation and it was almost metaphorical. 10/10."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-lg">🐠</div>
+          <div>
+            <div class="font-bold text-slate-900 text-sm">Gary B.</div>
+            <div class="text-slate-500 text-xs">Barnacle Removal Specialist · Owner</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ─────────────────────────────────────────────── -->
+<section id="pricing" class="py-20 bg-slate-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <p class="text-teal-600 font-semibold text-sm uppercase tracking-widest mb-3">Pricing</p>
+      <h2 class="text-4xl font-black text-slate-900 mb-4">Simple, transparent pricing.<br/>Paid in clams.</h2>
+      <p class="text-slate-500 text-lg">One clam = one dollar. That's just how it works now. Don't ask questions.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <!-- Starter -->
+      <div class="bg-white rounded-2xl p-8 border border-slate-200 card-hover">
+        <div class="text-3xl mb-3">🐚</div>
+        <h3 class="font-black text-slate-900 text-xl mb-1">Starter</h3>
+        <p class="text-slate-500 text-sm mb-5">For the solo contractor just cracking open.</p>
+        <div class="mb-6">
+          <span class="text-4xl font-black text-slate-900">$29</span>
+          <span class="text-slate-500 text-sm">/mo</span>
+          <div class="text-teal-600 text-sm font-medium">= 29 clams/month</div>
+        </div>
+        <ul class="space-y-2.5 text-sm text-slate-600 mb-8">
+          <li class="flex items-center gap-2"><span class="text-teal-500">✓</span> Up to 3 open projects</li>
+          <li class="flex items-center gap-2"><span class="text-teal-500">✓</span> 500 photo uploads/mo</li>
+          <li class="flex items-center gap-2"><span class="text-teal-500">✓</span> Shell documentation</li>
+          <li class="flex items-center gap-2"><span class="text-teal-500">✓</span> Basic pearl reports</li>
+          <li class="flex items-center gap-2 text-slate-400"><span>✗</span> Real-time clam-to-office</li>
+        </ul>
+        <a href="#" class="block text-center border-2 border-teal-600 text-teal-600 font-bold py-3 rounded-xl hover:bg-teal-50 transition-colors">Get Started</a>
+      </div>
+      <!-- Pro (highlighted) -->
+      <div class="bg-slate-900 rounded-2xl p-8 border border-slate-700 card-hover relative">
+        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2">
+          <span class="gradient-cta text-white text-xs font-bold px-4 py-1.5 rounded-full">MOST POPULAR</span>
+        </div>
+        <div class="text-3xl mb-3">🦪</div>
+        <h3 class="font-black text-white text-xl mb-1">Pro Sheller</h3>
+        <p class="text-slate-400 text-sm mb-5">For serious contractors who aren't clamming around.</p>
+        <div class="mb-6">
+          <span class="text-4xl font-black text-white">$79</span>
+          <span class="text-slate-400 text-sm">/mo</span>
+          <div class="text-teal-400 text-sm font-medium">= 79 clams/month</div>
+        </div>
+        <ul class="space-y-2.5 text-sm text-slate-300 mb-8">
+          <li class="flex items-center gap-2"><span class="text-teal-400">✓</span> Unlimited open projects</li>
+          <li class="flex items-center gap-2"><span class="text-teal-400">✓</span> Unlimited photo uploads</li>
+          <li class="flex items-center gap-2"><span class="text-teal-400">✓</span> Full shell documentation</li>
+          <li class="flex items-center gap-2"><span class="text-teal-400">✓</span> Advanced pearl reports</li>
+          <li class="flex items-center gap-2"><span class="text-teal-400">✓</span> Real-time clam-to-office</li>
+        </ul>
+        <a href="#" class="block text-center gradient-cta text-white font-bold py-3 rounded-xl hover:opacity-90 transition-opacity">Get Started</a>
+      </div>
+      <!-- Enterprise -->
+      <div class="bg-white rounded-2xl p-8 border border-slate-200 card-hover">
+        <div class="text-3xl mb-3">🏗️</div>
+        <h3 class="font-black text-slate-900 text-xl mb-1">Enterprise Reef</h3>
+        <p class="text-slate-500 text-sm mb-5">For large operations with a lot of clams to track.</p>
+        <div class="mb-6">
+          <span class="text-4xl font-black text-slate-900">Custom</span>
+          <div class="text-teal-600 text-sm font-medium">= many, many clams</div>
+        </div>
+        <ul class="space-y-2.5 text-sm text-slate-600 mb-8">
+          <li class="flex items-center gap-2"><span class="text-teal-500">✓</span> Everything in Pro</li>
+          <li class="flex items-center gap-2"><span class="text-teal-500">✓</span> SSO (Single Shell-On)</li>
+          <li class="flex items-center gap-2"><span class="text-teal-500">✓</span> Dedicated pearl manager</li>
+          <li class="flex items-center gap-2"><span class="text-teal-500">✓</span> SLA (Shell-Level Agreement)</li>
+          <li class="flex items-center gap-2"><span class="text-teal-500">✓</span> Custom tide integrations</li>
+        </ul>
+        <a href="#" class="block text-center border-2 border-teal-600 text-teal-600 font-bold py-3 rounded-xl hover:bg-teal-50 transition-colors">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER CTA ──────────────────────────────────────────── -->
+<section class="gradient-hero py-20 text-white text-center">
+  <div class="max-w-2xl mx-auto px-6">
+    <div class="text-5xl mb-6">🐚</div>
+    <h2 class="text-4xl font-black mb-4">Ready to open up?</h2>
+    <p class="text-slate-300 text-lg mb-8">Join thousands of underwater contractors who've stopped clamming up and started closing more clams.</p>
+    <a href="#generator" class="gradient-cta text-white font-bold px-8 py-4 rounded-2xl text-lg hover:opacity-90 transition-opacity shadow-lg shadow-teal-500/25">
+      Start for Free — No Clam Required
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
+<footer class="bg-slate-900 border-t border-white/10 py-10 text-slate-400 text-sm">
+  <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="flex items-center gap-2 text-white font-bold text-base">
+      <span class="text-xl">🐚</span>
+      <span>Company<span class="text-teal-400">Clam</span></span>
+    </div>
+    <p>© 2026 CompanyClam, Inc. All rights reserved. No actual clams were harmed in the making of this software.</p>
+    <div class="flex gap-4">
+      <a href="#" class="hover:text-white transition-colors">Privacy</a>
+      <a href="#" class="hover:text-white transition-colors">Terms</a>
+      <a href="#" class="hover:text-white transition-colors">Reef Policy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ── PHOTO MODAL ─────────────────────────────────────────── -->
+<div id="photoModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-6" onclick="closeModal(event)">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden" onclick="event.stopPropagation()">
+    <div class="bg-slate-800 px-5 py-4 flex items-center justify-between">
+      <div>
+        <div class="text-white font-bold">📸 Photo Documentation</div>
+        <div id="modalProjectName" class="text-slate-400 text-xs mt-0.5"></div>
+      </div>
+      <button onclick="document.getElementById('photoModal').classList.add('hidden')" class="text-slate-400 hover:text-white text-xl leading-none">✕</button>
+    </div>
+    <div class="p-5">
+      <div class="grid grid-cols-2 gap-3 mb-4">
+        <div class="photo-thumb bg-teal-800/30 flex-col gap-1">
+          <div class="text-3xl">🌊</div>
+          <div class="text-xs text-slate-500 mt-1">Before (low tide)</div>
+        </div>
+        <div class="photo-thumb bg-teal-600/20 flex-col gap-1">
+          <div class="text-3xl">🔨</div>
+          <div class="text-xs text-slate-500 mt-1">Day 1 – mobilization</div>
+        </div>
+        <div class="photo-thumb bg-slate-100 flex-col gap-1">
+          <div class="text-3xl">😐</div>
+          <div class="text-xs text-slate-500 mt-1">Inspector visit (went fine)</div>
+        </div>
+        <div class="photo-thumb bg-teal-600/30 flex-col gap-1">
+          <div class="text-3xl">🌊</div>
+          <div class="text-xs text-slate-500 mt-1">After (also low tide, different clam)</div>
+        </div>
+      </div>
+      <p class="text-slate-500 text-xs text-center">Showing 4 of <span id="modalPhotoCount">4</span> photos · <span class="text-teal-600 font-medium cursor-pointer">Load more</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- ── JS ─────────────────────────────────────────────────── -->
+<script>
+  const PROJECTS = [
+    {
+      name: "Pearl Installation – Malibu",
+      contractor: "Pacific Shellworks · Lead: Derek M.",
+      status: "In Progress", statusClass: "badge-green", dotClass: "green",
+      desc: "High-end luxury upgrade for a discerning mollusk in Malibu. Client has expensive taste and a very long siphon. Phase 2 begins Tuesday, pending tide schedule and client's emotional availability.",
+      value: "$42,000 clams",
+      photos: "47 photos", days: "Day 12", team: "4 on site"
+    },
+    {
+      name: "Barnacle Removal – Historic Structure",
+      contractor: "Coastal Scrape Co. · Lead: Phil S.",
+      status: "On Hold", statusClass: "badge-yellow", dotClass: "yellow",
+      desc: "Historic designation means we can't touch anything without three permits and a strongly worded letter from the reef council. Client has completely clammed up after the last site visit. EPA is 'monitoring the situation.'",
+      value: "$8,500 clams",
+      photos: "12 photos", days: "Day 34", team: "0 on site"
+    },
+    {
+      name: "Tide Gate Repair – Reef District",
+      contractor: "DeepFix LLC · Lead: Maria O.",
+      status: "In Progress", statusClass: "badge-green", dotClass: "green",
+      desc: "Critical infrastructure serving the entire lower reef. We are currently underwater on hours but miraculously on budget. Literally underwater. The team has adjusted.",
+      value: "$23,000 clams",
+      photos: "91 photos", days: "Day 8", team: "6 on site"
+    },
+    {
+      name: "Shell Renovation – Open Concept",
+      contractor: "ShellCraft Bros · Lead: Tommy B.",
+      status: "Just Opened", statusClass: "badge-blue", dotClass: "blue",
+      desc: "Client wants the entire top shell removed for a more 'airy' feel and 'better flow.' Structural engineer has significant concerns. Client says the engineer is 'not a visionary.' We are caught in the middle of this.",
+      value: "$67,000 clams",
+      photos: "3 photos", days: "Day 1", team: "2 on site"
+    },
+    {
+      name: "Coral Reinforcement – Sector 7",
+      contractor: "ReefStrong · Lead: Janet W.",
+      status: "Clamped Shut", statusClass: "badge-red", dotClass: "red",
+      desc: "Structural assessment revealed the entire west wing is 'vibes-based construction.' Project paused pending engineering review. Client is not returning calls. Lawyers are using the word 'settlement' a lot. We do not love this.",
+      value: "$91,000 clams",
+      photos: "203 photos", days: "Day 67", team: "0 on site"
+    },
+    {
+      name: "Sandbar Leveling – Tidal Flats Project",
+      contractor: "Sediment Solutions · Lead: Carl N.",
+      status: "Complete", statusClass: "badge-gray", dotClass: "gray",
+      desc: "Grade A substrate work. Perfectly smooth. Smooth as a pearl. The client cried when we finished. We cried too, honestly. Nobody expected to feel that way about sand. Remarkable project. Would do again.",
+      value: "$11,200 clams",
+      photos: "58 photos", days: "Day 21 (Final)", team: "0 on site"
+    },
+    {
+      name: "Pressure Washing – Tidal Edition",
+      contractor: "Clean Reef Inc. · Lead: Steve H.",
+      status: "In Progress", statusClass: "badge-green", dotClass: "green",
+      desc: "Client said 'just a quick rinse, probably a half day.' That was six weeks ago. We have found three additional layers of crust that were not in scope. Client keeps saying 'just a little more.' We are not okay.",
+      value: "$3,200 clams",
+      photos: "29 photos", days: "Day 41", team: "1 on site"
+    },
+    {
+      name: "Seabed Foundation – New Build",
+      contractor: "DeepBuild Group · Lead: Anya K.",
+      status: "Just Opened", statusClass: "badge-blue", dotClass: "blue",
+      desc: "New construction at 40 fathoms. Exciting project. Unprecedented in scope. OSHA has several questions and would like to schedule a call. The team is very enthusiastic and has not read the OSHA questions yet.",
+      value: "$180,000 clams",
+      photos: "1 photo", days: "Day 1", team: "8 on site"
+    }
+  ];
+
+  let lastIndex = -1;
+
+  function generateProject() {
+    let idx;
+    do { idx = Math.floor(Math.random() * PROJECTS.length); } while (idx === lastIndex);
+    lastIndex = idx;
+    const p = PROJECTS[idx];
+
+    document.getElementById('cardName').textContent = p.name;
+    document.getElementById('cardContractor').textContent = p.contractor;
+    document.getElementById('cardDesc').textContent = p.desc;
+    document.getElementById('cardValue').textContent = p.value;
+    document.getElementById('cardPhotos').textContent = '📸 ' + p.photos;
+    document.getElementById('cardDays').textContent = '📅 ' + p.days;
+    document.getElementById('cardTeam').textContent = '👷 ' + p.team;
+
+    const statusEl = document.getElementById('cardStatus');
+    statusEl.className = 'badge ' + p.statusClass;
+    statusEl.innerHTML = `<span class="pulse-dot ${p.dotClass}"></span>${p.status}`;
+
+    const card = document.getElementById('projectCard');
+    card.classList.remove('hidden');
+    card.classList.remove('fade-up');
+    void card.offsetWidth; // reflow to restart animation
+    card.classList.add('fade-up');
+  }
+
+  function viewPhotos() {
+    const p = PROJECTS[lastIndex];
+    document.getElementById('modalProjectName').textContent = p.name;
+    document.getElementById('modalPhotoCount').textContent = p.photos.split(' ')[0];
+    document.getElementById('photoModal').classList.remove('hidden');
+  }
+
+  function closeModal(e) {
+    document.getElementById('photoModal').classList.add('hidden');
+  }
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+</script>
+</body>
+</html>
