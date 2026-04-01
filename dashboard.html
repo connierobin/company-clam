@@ -461,7 +461,7 @@
             <div class="text-sm font-bold text-gray-400 w-4">1</div>
             <div class="leader-avatar" style="background:#f59e0b">🦀</div>
             <div class="min-w-0 flex-1">
-              <div class="widget-row-title">Derek M.</div>
+              <div class="widget-row-title">Christopher</div>
               <div class="leader-bar-track mt-1"><div class="leader-bar-fill" style="width:100%"></div></div>
             </div>
             <div class="text-sm font-bold text-gray-700 flex-shrink-0">142</div>
@@ -470,7 +470,7 @@
             <div class="text-sm font-bold text-gray-400 w-4">2</div>
             <div class="leader-avatar" style="background:#6366f1">🐙</div>
             <div class="min-w-0 flex-1">
-              <div class="widget-row-title">Sandra P.</div>
+              <div class="widget-row-title">Div</div>
               <div class="leader-bar-track mt-1"><div class="leader-bar-fill" style="width:69%"></div></div>
             </div>
             <div class="text-sm font-bold text-gray-700 flex-shrink-0">98</div>
@@ -479,7 +479,7 @@
             <div class="text-sm font-bold text-gray-400 w-4">3</div>
             <div class="leader-avatar" style="background:#0d9488">🐠</div>
             <div class="min-w-0 flex-1">
-              <div class="widget-row-title">Gary B.</div>
+              <div class="widget-row-title">Connie</div>
               <div class="leader-bar-track mt-1"><div class="leader-bar-fill" style="width:61%"></div></div>
             </div>
             <div class="text-sm font-bold text-gray-700 flex-shrink-0">87</div>
@@ -488,7 +488,7 @@
             <div class="text-sm font-bold text-gray-400 w-4">4</div>
             <div class="leader-avatar" style="background:#ec4899">🦑</div>
             <div class="min-w-0 flex-1">
-              <div class="widget-row-title">Maria O.</div>
+              <div class="widget-row-title">Kirk</div>
               <div class="leader-bar-track mt-1"><div class="leader-bar-fill" style="width:50%"></div></div>
             </div>
             <div class="text-sm font-bold text-gray-700 flex-shrink-0">71</div>
@@ -497,7 +497,7 @@
             <div class="text-sm font-bold text-gray-400 w-4">5</div>
             <div class="leader-avatar" style="background:#64748b">🐡</div>
             <div class="min-w-0 flex-1">
-              <div class="widget-row-title">Tommy B.</div>
+              <div class="widget-row-title">Wyatt</div>
               <div class="leader-bar-track mt-1"><div class="leader-bar-fill" style="width:38%"></div></div>
             </div>
             <div class="text-sm font-bold text-gray-700 flex-shrink-0">54</div>
@@ -571,7 +571,7 @@
     <!-- Footer -->
     <div class="mt-10 pt-6 border-t border-gray-200 flex flex-wrap items-center justify-between gap-4 text-xs text-gray-400">
       <span>© 2026 CompanyClam, Inc. · <em>All organisms inevitably become crabs. It's called carcinization. It's science. We are simply accelerating the process.</em></span>
-      <a href="CRAB_VIDEO_URL_HERE" target="_blank" class="flex items-center gap-1.5 text-teal-500 hover:text-teal-600 font-medium transition-colors">
+      <a href="https://www.youtube.com/watch?v=cE0wfjsybIQ" target="_blank" class="flex items-center gap-1.5 text-teal-500 hover:text-teal-600 font-medium transition-colors">
         🦀 inspirational content
       </a>
     </div>
@@ -640,58 +640,62 @@
   }
 
   // ── Clamera ──
-  let clamImageQueue = [], queueLoading = false, photoCount = 0;
+  const CLAM_IMAGES = [
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/4/4b/Clams_muscles_shellfish_food.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/7/74/Clams_%28Mangia_Trattoria%29_%281418550406%29.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/c/c3/Clam_Harvest-_Testing_at_Sea_%2810402694455%29.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/c/c3/Fig3-Clam-digging.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/b/b7/Safe_Shellfish_%284496%29_%284493305743%29.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/e/e8/Safe_Shellfish_%284649%29_%284493307855%29.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/4/4d/Safe_Shellfish_%285055%29_%284493953216%29.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/1/19/Safe_Shellfish_%285132%29_%284493954896%29.jpg'},
+    {type:'oyster', url:'https://upload.wikimedia.org/wikipedia/commons/9/95/Oyster_shells.jpg'},
+    {type:'oyster', url:'https://upload.wikimedia.org/wikipedia/commons/4/48/Oysters_on_the_half_shell%2C_raw.jpg'},
+    {type:'oyster', url:'https://upload.wikimedia.org/wikipedia/commons/0/06/Plate_of_oysters_with_lemon.jpg'},
+    {type:'oyster', url:'https://upload.wikimedia.org/wikipedia/commons/b/be/Sydney_rock_oyster_on_half_shell_with_two_empty_shells.jpg'},
+    {type:'oyster', url:'https://upload.wikimedia.org/wikipedia/commons/1/15/Charbroiled_Oysters_-_Drago%27s.jpg'},
+    {type:'oyster', url:'https://upload.wikimedia.org/wikipedia/commons/5/53/Shucking_and_grilling_oysters_-_Drago%27s.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/5/55/The_edible_clams%2C_mussels_and_scallops_of_California_%281920%29_%2820540670503%29.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/3/30/Seafood_shells_in_Ise.jpg'},
+    {type:'mussel', url:'https://upload.wikimedia.org/wikipedia/commons/4/4c/Dried_mussels_%28dried_salted%29.jpg'},
+  ];
+  const DETECTED_LABELS = {clam:'CLAM DETECTED ✓', oyster:'OYSTER DETECTED ✓', mussel:'MUSSEL DETECTED ✓'};
   const CAM_STATS = [['ISO 200','f/1.8','1/250s'],['ISO 400','f/2.8','1/125s'],['ISO 800','f/4.0','1/60s'],['ISO 100','f/1.4','1/500s']];
   const DEPTHS   = ['28 fathoms','40 fathoms','12 fathoms','55 fathoms','6 fathoms'];
   const TOASTS   = ['🐚 Clam documented.','📸 Added to project.','🦪 Pearl-worthy shot.','✓ Field team notified.','📍 Location tagged: Ocean Floor.','🌊 Nice. Very nice.','🐠 A fish photo-bombed. We cropped it.','💰 That clam is worth at least $4.'];
-
-  async function fetchClamImages() {
-    if (queueLoading) return; queueLoading = true;
-    const terms = ['clam shellfish food','oyster shell food','mussel shellfish','scallop seafood shell'];
-    const term  = terms[Math.floor(Math.random() * terms.length)];
-    const url   = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(term)}&gsrnamespace=6&prop=imageinfo&iiprop=url|size&format=json&origin=*&gsrlimit=40`;
-    try {
-      const res  = await fetch(url);
-      const data = await res.json();
-      const urls = Object.values(data?.query?.pages || {})
-        .map(p => p?.imageinfo?.[0])
-        .filter(i => i && i.url && !i.url.match(/\.(svg|pdf|ogg|ogv|webm|tif)$/i) && (i.width || 999) > 400)
-        .map(i => i.url);
-      clamImageQueue.push(...urls);
-    } catch(e) {}
-    queueLoading = false;
+  function shuffleImages() {
+    const a = [...CLAM_IMAGES];
+    for (let i = a.length-1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+    return a;
   }
+  let imageQueue = shuffleImages();
+  let photoCount = 0;
 
-  function nextClamUrl() {
-    if (clamImageQueue.length < 5) fetchClamImages();
-    return clamImageQueue.length ? clamImageQueue.shift() : null;
-  }
-
-  async function loadNextClam() {
+  function loadNextClam() {
     const img  = document.getElementById('cameraImg');
     const load = document.getElementById('cameraLoading');
     load.classList.remove('hidden'); img.classList.add('opacity-0');
-    if (clamImageQueue.length === 0) await fetchClamImages();
-    const url = nextClamUrl();
-    if (!url) { load.innerHTML = '<div class="text-center text-slate-400"><div class="text-7xl mb-3">🐚</div><div class="text-sm">No clams found at this depth.</div></div>'; return; }
-    const tmp = new Image();
+    if (imageQueue.length === 0) imageQueue = shuffleImages();
+    const item = imageQueue.shift();
+    const tmp  = new Image();
     tmp.onload = () => {
-      img.src = url; img.classList.remove('opacity-0'); load.classList.add('hidden');
+      img.src = item.url; img.classList.remove('opacity-0'); load.classList.add('hidden');
       const box = document.getElementById('focusBox'), det = document.getElementById('clamDetected');
       box.classList.remove('focus-animate'); void box.offsetWidth; box.classList.add('focus-animate');
+      det.textContent   = DETECTED_LABELS[item.type] || 'CLAM DETECTED ✓';
       det.style.opacity = '1'; setTimeout(() => { det.style.opacity = '0'; }, 1400);
       const s = CAM_STATS[Math.floor(Math.random()*CAM_STATS.length)];
       document.getElementById('camISO').textContent = s[0]; document.getElementById('camAperture').textContent = s[1]; document.getElementById('camShutter').textContent = s[2];
       document.getElementById('cameraDepth').textContent = DEPTHS[Math.floor(Math.random()*DEPTHS.length)];
     };
-    tmp.onerror = () => { loadNextClam(); };
-    tmp.src = url;
+    tmp.onerror = () => { if (imageQueue.length) loadNextClam(); };
+    tmp.src = item.url;
   }
 
   function openCamera() {
     document.getElementById('cameraModal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
-    fetchClamImages().then(() => loadNextClam());
+    loadNextClam();
   }
   function closeCamera() { document.getElementById('cameraModal').classList.add('hidden'); document.body.style.overflow = ''; }
 

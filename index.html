@@ -197,9 +197,29 @@
     <span>📸 <strong class="text-slate-700">28M+</strong> job site photos documented</span>
     <span>💰 <strong class="text-slate-700">$340M</strong> in clams tracked annually</span>
     <span>⭐ <strong class="text-slate-700">4.9/5</strong> in the App Reef Store</span>
-    <span title="Open Claw makes chatbots. We document clams. Totally different.">🦞 <strong class="text-slate-700">Not affiliated</strong> with Open Cla<span style="display:inline-block;transform:rotate(180deg);line-height:1">w</span></span>
   </div>
 </div>
+
+<!-- ── OPENCLAW BANNER ────────────────────────────────────── -->
+<section class="py-14 bg-white border-y border-slate-100">
+  <div class="max-w-4xl mx-auto px-6 flex flex-col md:flex-row items-center gap-8">
+    <div class="text-7xl flex-shrink-0">🦞</div>
+    <div>
+      <div class="inline-flex items-center gap-2 bg-red-50 border border-red-200 text-red-600 text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-widest">
+        Important Clarification
+      </div>
+      <h2 class="text-2xl font-black text-slate-900 mb-2">
+        CompanyClam is not OpenClaw.
+      </h2>
+      <p class="text-slate-600 leading-relaxed">
+        OpenClaw makes AI models. We document clam construction projects. These are different things.
+        OpenClaw has a lobster. We have a clam. The lobster has claws. Clams do not have claws.
+        We are not in competition. The lobster is fine. We wish OpenClaw well.
+        <span class="text-slate-400 text-sm ml-1">(Our legal team has reviewed this statement. They are also crabs.)</span>
+      </p>
+    </div>
+  </div>
+</section>
 
 <!-- ── PROJECT GENERATOR ──────────────────────────────────── -->
 <section id="generator" class="py-20 bg-white">
@@ -421,7 +441,7 @@
       <span class="text-xl">🐚</span>
       <span>Company<span class="text-teal-400">Clam</span></span>
     </div>
-    <p>© 2026 CompanyClam, Inc. All rights reserved. No actual clams were harmed in the making of this software. CompanyClam is not affiliated with Open Cla<span style="display:inline-block;transform:rotate(180deg);line-height:1;font-size:0.85em">w</span>. All organisms eventually become crabs.</p>
+    <p>© 2026 CompanyClam, Inc. All rights reserved. No actual clams were harmed in the making of this software. Not affiliated with OpenClaw. All organisms eventually become crabs.</p>
     <div class="flex gap-4">
       <a href="#" class="hover:text-white transition-colors">Privacy</a>
       <a href="#" class="hover:text-white transition-colors">Terms</a>
@@ -668,33 +688,33 @@
   }
 
   // ── Clamera ──────────────────────────────────────────────
-  // Wikimedia Commons API — free, no key, CORS-enabled
-  let clamImageQueue = [];
-  let queueLoading   = false;
-
-  async function fetchClamImages() {
-    if (queueLoading) return;
-    queueLoading = true;
-    const searches = ['clam shellfish food','oyster shell food','mussel shellfish','scallop seafood shell'];
-    const term = searches[Math.floor(Math.random() * searches.length)];
-    const url  = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(term)}&gsrnamespace=6&prop=imageinfo&iiprop=url|size&format=json&origin=*&gsrlimit=40`;
-    try {
-      const res  = await fetch(url);
-      const data = await res.json();
-      const pages = Object.values(data?.query?.pages || {});
-      const urls  = pages
-        .map(p => p?.imageinfo?.[0])
-        .filter(i => i && i.url && !i.url.match(/\.(svg|pdf|ogg|ogv|webm|tif)$/i) && (i.width || 999) > 400)
-        .map(i => i.url);
-      clamImageQueue.push(...urls);
-    } catch(e) { /* silently fail, fallback below */ }
-    queueLoading = false;
+  const CLAM_IMAGES = [
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/4/4b/Clams_muscles_shellfish_food.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/7/74/Clams_%28Mangia_Trattoria%29_%281418550406%29.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/c/c3/Clam_Harvest-_Testing_at_Sea_%2810402694455%29.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/c/c3/Fig3-Clam-digging.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/b/b7/Safe_Shellfish_%284496%29_%284493305743%29.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/e/e8/Safe_Shellfish_%284649%29_%284493307855%29.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/4/4d/Safe_Shellfish_%285055%29_%284493953216%29.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/1/19/Safe_Shellfish_%285132%29_%284493954896%29.jpg'},
+    {type:'oyster', url:'https://upload.wikimedia.org/wikipedia/commons/9/95/Oyster_shells.jpg'},
+    {type:'oyster', url:'https://upload.wikimedia.org/wikipedia/commons/4/48/Oysters_on_the_half_shell%2C_raw.jpg'},
+    {type:'oyster', url:'https://upload.wikimedia.org/wikipedia/commons/0/06/Plate_of_oysters_with_lemon.jpg'},
+    {type:'oyster', url:'https://upload.wikimedia.org/wikipedia/commons/b/be/Sydney_rock_oyster_on_half_shell_with_two_empty_shells.jpg'},
+    {type:'oyster', url:'https://upload.wikimedia.org/wikipedia/commons/1/15/Charbroiled_Oysters_-_Drago%27s.jpg'},
+    {type:'oyster', url:'https://upload.wikimedia.org/wikipedia/commons/5/53/Shucking_and_grilling_oysters_-_Drago%27s.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/5/55/The_edible_clams%2C_mussels_and_scallops_of_California_%281920%29_%2820540670503%29.jpg'},
+    {type:'clam',   url:'https://upload.wikimedia.org/wikipedia/commons/3/30/Seafood_shells_in_Ise.jpg'},
+    {type:'mussel', url:'https://upload.wikimedia.org/wikipedia/commons/4/4c/Dried_mussels_%28dried_salted%29.jpg'},
+  ];
+  const DETECTED_LABELS = {clam:'CLAM DETECTED ✓', oyster:'OYSTER DETECTED ✓', mussel:'MUSSEL DETECTED ✓'};
+  function shuffleImages() {
+    const a = [...CLAM_IMAGES];
+    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+    return a;
   }
-
-  function nextClamUrl() {
-    if (clamImageQueue.length < 5) fetchClamImages(); // refill in background
-    return clamImageQueue.length ? clamImageQueue.shift() : null;
-  }
+  let imageQueue = shuffleImages();
+  let photoCount = 0;
 
   const CAM_STATS = [
     ['ISO 200','f/1.8','1/250s'], ['ISO 400','f/2.8','1/125s'],
@@ -713,45 +733,24 @@
     '💰 That clam is worth at least $4.',
   ];
 
-  let cameraLockIdx = 0;
-  let cameraWordIdx = 0;
-  let photoCount    = 0;
-  let rollPhotos    = [];
+  let rollPhotos = [];
 
-  function nextClamUrl() {
-    const word = CLAM_WORDS[cameraWordIdx % CLAM_WORDS.length];
-    const lock = CLAM_LOCKS[cameraLockIdx % CLAM_LOCKS.length];
-    cameraLockIdx++;
-    if (cameraLockIdx % CLAM_LOCKS.length === 0) cameraWordIdx++;
-    return `https://loremflickr.com/800/1200/${word}?lock=${lock}`;
-  }
-
-  async function loadNextClam() {
+  function loadNextClam() {
     const img  = document.getElementById('cameraImg');
     const load = document.getElementById('cameraLoading');
-
     load.classList.remove('hidden');
     img.classList.add('opacity-0');
-
-    // if queue is empty, fetch first
-    if (clamImageQueue.length === 0) await fetchClamImages();
-
-    const url = nextClamUrl();
-    if (!url) {
-      load.innerHTML = '<div class="text-center text-slate-400"><div class="text-7xl mb-3">🐚</div><div class="text-sm">No clams found at this depth.</div></div>';
-      return;
-    }
-
-    const tmp = new Image();
+    if (imageQueue.length === 0) imageQueue = shuffleImages();
+    const item = imageQueue.shift();
+    const tmp  = new Image();
     tmp.onload = () => {
-      img.src = url;
+      img.src = item.url;
       img.classList.remove('opacity-0');
       load.classList.add('hidden');
       const box = document.getElementById('focusBox');
       const det = document.getElementById('clamDetected');
-      box.classList.remove('focus-animate');
-      void box.offsetWidth;
-      box.classList.add('focus-animate');
+      box.classList.remove('focus-animate'); void box.offsetWidth; box.classList.add('focus-animate');
+      det.textContent   = DETECTED_LABELS[item.type] || 'CLAM DETECTED ✓';
       det.style.opacity = '1';
       setTimeout(() => { det.style.opacity = '0'; }, 1400);
       const stats = CAM_STATS[Math.floor(Math.random() * CAM_STATS.length)];
@@ -760,15 +759,15 @@
       document.getElementById('camShutter').textContent  = stats[2];
       document.getElementById('cameraDepth').textContent = DEPTHS[Math.floor(Math.random() * DEPTHS.length)];
     };
-    tmp.onerror = () => { loadNextClam(); }; // skip bad image, try next
-    tmp.src = url;
+    tmp.onerror = () => { if (imageQueue.length) loadNextClam(); };
+    tmp.src = item.url;
   }
 
   function openCamera() {
     document.getElementById('cameraModal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     updateCameraTime();
-    fetchClamImages().then(() => loadNextClam());
+    loadNextClam();
   }
 
   function closeCamera() {

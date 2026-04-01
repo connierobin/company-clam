@@ -1,9 +1,7 @@
 --- CLAMS ---
 https://upload.wikimedia.org/wikipedia/commons/4/4b/Clams_muscles_shellfish_food.jpg
 https://upload.wikimedia.org/wikipedia/commons/7/74/Clams_%28Mangia_Trattoria%29_%281418550406%29.jpg
-https://upload.wikimedia.org/wikipedia/commons/5/51/Clam_Harvest-_Testing_at_Sea_%2810402673964%29.jpg
 https://upload.wikimedia.org/wikipedia/commons/c/c3/Clam_Harvest-_Testing_at_Sea_%2810402694455%29.jpg
-https://upload.wikimedia.org/wikipedia/commons/d/d3/Clam_Harvest-_Testing_at_Sea_%2810402705026%29.jpg
 https://upload.wikimedia.org/wikipedia/commons/c/c3/Fig3-Clam-digging.jpg
 https://upload.wikimedia.org/wikipedia/commons/b/b7/Safe_Shellfish_%284496%29_%284493305743%29.jpg
 https://upload.wikimedia.org/wikipedia/commons/e/e8/Safe_Shellfish_%284649%29_%284493307855%29.jpg
@@ -17,18 +15,10 @@ https://upload.wikimedia.org/wikipedia/commons/0/06/Plate_of_oysters_with_lemon.
 https://upload.wikimedia.org/wikipedia/commons/b/be/Sydney_rock_oyster_on_half_shell_with_two_empty_shells.jpg
 https://upload.wikimedia.org/wikipedia/commons/1/15/Charbroiled_Oysters_-_Drago%27s.jpg
 https://upload.wikimedia.org/wikipedia/commons/5/53/Shucking_and_grilling_oysters_-_Drago%27s.jpg
-https://upload.wikimedia.org/wikipedia/commons/e/e4/Fried_oysters%2C_soft-shell_crab.jpg
 
 --- MIXED SHELLFISH / SCIENTIFIC ILLUSTRATIONS (might be cool/weird) ---
-https://upload.wikimedia.org/wikipedia/commons/4/4f/The_edible_clams%2C_mussels_and_scallops_of_California_%281920%29_%2820539092094%29.jpg
-https://upload.wikimedia.org/wikipedia/commons/1/16/The_edible_clams%2C_mussels_and_scallops_of_California_%281920%29_%2820539099614%29.jpg
-https://upload.wikimedia.org/wikipedia/commons/4/49/The_edible_clams%2C_mussels_and_scallops_of_California_%281920%29_%2820539106214%29.jpg
-https://upload.wikimedia.org/wikipedia/commons/f/f1/The_edible_clams%2C_mussels_and_scallops_of_California_%281920%29_%2820539121264%29.jpg
-https://upload.wikimedia.org/wikipedia/commons/0/0b/The_edible_clams%2C_mussels_and_scallops_of_California_%281920%29_%2820540660863%29.jpg
 https://upload.wikimedia.org/wikipedia/commons/5/55/The_edible_clams%2C_mussels_and_scallops_of_California_%281920%29_%2820540670503%29.jpg
 https://upload.wikimedia.org/wikipedia/commons/3/30/Seafood_shells_in_Ise.jpg
 
---- OTHER SHELLFISH ---
+--- MUSSELS ---
 https://upload.wikimedia.org/wikipedia/commons/4/4c/Dried_mussels_%28dried_salted%29.jpg
-https://upload.wikimedia.org/wikipedia/commons/5/5f/Carthay_Shellfish_Cioppino_%2829428096016%29.jpg
-https://upload.wikimedia.org/wikipedia/commons/f/fb/Ultimate_Seafood_Platter_at_Landry%27s_Seafood_House.jpg
