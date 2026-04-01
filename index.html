@@ -104,7 +104,7 @@
     </div>
     <!-- CTAs -->
     <div class="flex items-center gap-3">
-      <a href="#" class="hidden md:block text-sm text-slate-300 hover:text-white font-medium transition-colors">Sign In</a>
+      <a href="dashboard.html" class="hidden md:block text-sm text-slate-300 hover:text-white font-medium transition-colors">Sign In</a>
       <a href="#generator" class="gradient-cta text-white text-sm font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
         Get Started Free
       </a>
@@ -667,9 +667,34 @@
   }
 
   // ── Clamera ──────────────────────────────────────────────
-  // loremflickr.com returns real Flickr photos by keyword, free, no API key
-  const CLAM_LOCKS = [1,4,7,12,17,23,28,35,41,47,52,58,63,69,74,80,85,91,96,102];
-  const CLAM_WORDS = ['clam','oyster','mussel','scallop','clam,shellfish','oyster,shell'];
+  // Wikimedia Commons API — free, no key, CORS-enabled
+  let clamImageQueue = [];
+  let queueLoading   = false;
+
+  async function fetchClamImages() {
+    if (queueLoading) return;
+    queueLoading = true;
+    const searches = ['clam shellfish food','oyster shell food','mussel shellfish','scallop seafood shell'];
+    const term = searches[Math.floor(Math.random() * searches.length)];
+    const url  = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(term)}&gsrnamespace=6&prop=imageinfo&iiprop=url|size&format=json&origin=*&gsrlimit=40`;
+    try {
+      const res  = await fetch(url);
+      const data = await res.json();
+      const pages = Object.values(data?.query?.pages || {});
+      const urls  = pages
+        .map(p => p?.imageinfo?.[0])
+        .filter(i => i && i.url && !i.url.match(/\.(svg|pdf|ogg|ogv|webm|tif)$/i) && (i.width || 999) > 400)
+        .map(i => i.url);
+      clamImageQueue.push(...urls);
+    } catch(e) { /* silently fail, fallback below */ }
+    queueLoading = false;
+  }
+
+  function nextClamUrl() {
+    if (clamImageQueue.length < 5) fetchClamImages(); // refill in background
+    return clamImageQueue.length ? clamImageQueue.shift() : null;
+  }
+
   const CAM_STATS = [
     ['ISO 200','f/1.8','1/250s'], ['ISO 400','f/2.8','1/125s'],
     ['ISO 800','f/4.0','1/60s'],  ['ISO 100','f/1.4','1/500s'],
@@ -700,20 +725,27 @@
     return `https://loremflickr.com/800/1200/${word}?lock=${lock}`;
   }
 
-  function loadNextClam(isFirst) {
+  async function loadNextClam() {
     const img  = document.getElementById('cameraImg');
     const load = document.getElementById('cameraLoading');
-    const url  = nextClamUrl();
 
     load.classList.remove('hidden');
     img.classList.add('opacity-0');
+
+    // if queue is empty, fetch first
+    if (clamImageQueue.length === 0) await fetchClamImages();
+
+    const url = nextClamUrl();
+    if (!url) {
+      load.innerHTML = '<div class="text-center text-slate-400"><div class="text-7xl mb-3">🐚</div><div class="text-sm">No clams found at this depth.</div></div>';
+      return;
+    }
 
     const tmp = new Image();
     tmp.onload = () => {
       img.src = url;
       img.classList.remove('opacity-0');
       load.classList.add('hidden');
-      // animate focus box
       const box = document.getElementById('focusBox');
       const det = document.getElementById('clamDetected');
       box.classList.remove('focus-animate');
@@ -721,26 +753,21 @@
       box.classList.add('focus-animate');
       det.style.opacity = '1';
       setTimeout(() => { det.style.opacity = '0'; }, 1400);
-      // randomize stats
       const stats = CAM_STATS[Math.floor(Math.random() * CAM_STATS.length)];
-      document.getElementById('camISO').textContent     = stats[0];
+      document.getElementById('camISO').textContent      = stats[0];
       document.getElementById('camAperture').textContent = stats[1];
       document.getElementById('camShutter').textContent  = stats[2];
       document.getElementById('cameraDepth').textContent = DEPTHS[Math.floor(Math.random() * DEPTHS.length)];
     };
-    tmp.onerror = () => {
-      // if image fails, just show a clam emoji fallback
-      load.innerHTML = '<div class="text-center text-slate-400"><div class="text-7xl mb-3">🐚</div><div class="text-sm">Clam unavailable at this depth.</div></div>';
-    };
+    tmp.onerror = () => { loadNextClam(); }; // skip bad image, try next
     tmp.src = url;
-    return url;
   }
 
   function openCamera() {
     document.getElementById('cameraModal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     updateCameraTime();
-    loadNextClam(true);
+    fetchClamImages().then(() => loadNextClam());
   }
 
   function closeCamera() {
@@ -778,7 +805,7 @@
     setTimeout(() => toast.classList.add('hidden'), 1900);
 
     // load next clam after a beat
-    setTimeout(() => loadNextClam(false), 300);
+    setTimeout(() => loadNextClam(), 300);
   }
 
   function openRoll() {

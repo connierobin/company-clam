@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CompanyClam — Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css" rel="stylesheet"/>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #f5f5f5; }
+
+    /* ── Sidebar ── */
+    #sidebar { width: 220px; flex-shrink: 0; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; border-radius: 8px; cursor: pointer;
+      font-size: 14px; font-weight: 500; color: #374151;
+      transition: background 0.15s;
+    }
+    .nav-item:hover { background: #f3f4f6; }
+    .nav-item.active { background: #f0fdf4; color: #0d9488; font-weight: 600; }
+    .nav-item .mdi { font-size: 18px; width: 20px; text-align: center; }
+
+    /* ── Widget card ── */
+    .widget-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 12px;
+      height: 280px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .widget-card.tall { height: 320px; }
+    .widget-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .widget-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .widget-title { font-size: 14px; font-weight: 700; color: #111827; }
+    .widget-view-all { margin-left: auto; font-size: 12px; font-weight: 500; color: #6b7280; background: #f9fafb; border: 1px solid #e5e7eb; padding: 3px 10px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
+    .widget-view-all:hover { background: #f3f4f6; }
+
+    /* ── Widget row item ── */
+    .widget-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+    .widget-row + .widget-row { border-top: 1px solid #f3f4f6; }
+    .widget-thumb { width: 52px; height: 52px; border-radius: 8px; background: #f3f4f6; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; overflow: hidden; }
+    .widget-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .widget-row-title { font-size: 13px; font-weight: 600; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .widget-row-sub { font-size: 11px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+    .widget-row-meta { font-size: 11px; color: #9ca3af; margin-top: 1px; }
+
+    /* ── Status badges ── */
+    .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 600; }
+    .badge-green  { background: #dcfce7; color: #15803d; }
+    .badge-yellow { background: #fef9c3; color: #a16207; }
+    .badge-red    { background: #fee2e2; color: #b91c1c; }
+    .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+    .badge-gray   { background: #f1f5f9; color: #475569; }
+
+    /* ── Jump Back In cards (horizontal scroll) ── */
+    .jbi-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+    .jbi-scroll::-webkit-scrollbar { display: none; }
+    .jbi-card { flex-shrink: 0; width: 180px; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; cursor: pointer; transition: box-shadow 0.15s; }
+    .jbi-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .jbi-card-img { height: 96px; background: #e5e7eb; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+    .jbi-card-body { padding: 8px 10px; }
+    .jbi-card-title { font-size: 12px; font-weight: 600; color: #111827; }
+    .jbi-card-sub { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+
+    /* ── Photo strip ── */
+    .photo-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+    .photo-scroll::-webkit-scrollbar { display: none; }
+    .photo-thumb-big { flex-shrink: 0; width: 110px; height: 110px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; cursor: pointer; }
+
+    /* ── Progress circle (CSS) ── */
+    .progress-ring { position: relative; width: 48px; height: 48px; flex-shrink: 0; }
+    .progress-ring svg { transform: rotate(-90deg); }
+    .progress-ring-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #374151; }
+
+    /* ── Tabs ── */
+    .chip-tab { padding: 4px 10px; border-radius: 9999px; font-size: 12px; font-weight: 600; border: 1px solid #e5e7eb; cursor: pointer; background: white; color: #6b7280; transition: all 0.15s; }
+    .chip-tab.active { background: #0d9488; color: white; border-color: #0d9488; }
+
+    /* ── Leaderboard ── */
+    .leader-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; }
+    .leader-row + .leader-row { border-top: 1px solid #f3f4f6; }
+    .leader-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; color: white; flex-shrink: 0; }
+    .leader-bar-track { flex: 1; height: 6px; background: #f3f4f6; border-radius: 9999px; overflow: hidden; }
+    .leader-bar-fill { height: 100%; border-radius: 9999px; background: linear-gradient(90deg, #0d9488, #06b6d4); }
+
+    /* ── Payment rows ── */
+    .payment-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; gap: 8px; }
+    .payment-row + .payment-row { border-top: 1px solid #f3f4f6; }
+
+    /* ── Clamera (reused from index.html) ── */
+    #cameraModal { background: #000; }
+    .grid-lines { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,0.12) 1px,transparent 1px), linear-gradient(90deg,rgba(255,255,255,0.12) 1px,transparent 1px); background-size: 33.333% 33.333%; }
+    .focus-box { position: absolute; width: 80px; height: 80px; border: 2px solid #fbbf24; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+    @keyframes focusPulse { 0% { transform: translate(-50%,-50%) scale(1.4); opacity:0; } 40% { opacity:1; } 100% { transform: translate(-50%,-50%) scale(1); opacity:1; } }
+    .focus-animate { animation: focusPulse 0.35s ease forwards; }
+    @keyframes flashAnim { 0% { opacity:0.9; } 100% { opacity:0; } }
+    .do-flash { animation: flashAnim 0.25s ease forwards; }
+    @keyframes toastIn { 0% { opacity:0; transform:translateY(10px); } 20% { opacity:1; transform:translateY(0); } 75% { opacity:1; } 100% { opacity:0; } }
+    .toast-anim { animation: toastIn 1.8s ease forwards; }
+    .shutter-btn { width:72px; height:72px; border-radius:50%; background:white; border:4px solid rgba(255,255,255,0.4); box-shadow:0 0 0 3px rgba(255,255,255,0.15); transition:transform 0.1s; }
+    .shutter-btn:active { transform:scale(0.92); }
+    .camera-thumb { width:52px; height:52px; border-radius:10px; overflow:hidden; border:2px solid rgba(255,255,255,0.3); background:#1e293b; cursor:pointer; }
+  </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+<!-- ── SIDEBAR ──────────────────────────────────────────────── -->
+<aside id="sidebar" class="bg-white border-r border-gray-200 flex flex-col h-full">
+  <!-- Logo -->
+  <div class="px-4 py-4 border-b border-gray-100">
+    <a href="index.html" class="flex items-center gap-2 font-bold text-lg text-gray-900">
+      <span class="text-2xl">🐚</span>
+      <span>Company<span class="text-teal-600">Clam</span></span>
+    </a>
+  </div>
+
+  <!-- Nav items -->
+  <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+    <div class="nav-item active">
+      <i class="mdi mdi-home-outline text-teal-600"></i>
+      Home
+    </div>
+    <div class="nav-item" onclick="openCamera()">
+      <i class="mdi mdi-camera-outline text-teal-500"></i>
+      Clamera
+    </div>
+    <div class="nav-item">
+      <i class="mdi mdi-image-outline" style="color: rgba(0,144,108,1)"></i>
+      Photos
+    </div>
+    <div class="nav-item">
+      <i class="mdi mdi-map-marker-outline" style="color: rgba(246,128,255,1)"></i>
+      Projects
+    </div>
+    <div class="nav-item">
+      <i class="mdi mdi-clipboard-check-outline" style="color: rgba(9,103,210,1)"></i>
+      Checklists
+    </div>
+    <div class="nav-item">
+      <i class="mdi mdi-star-outline" style="color: rgba(153,125,0,1)"></i>
+      Starred
+    </div>
+    <div class="nav-item">
+      <i class="mdi mdi-currency-usd" style="color: rgba(79,149,4,1)"></i>
+      Payments
+    </div>
+    <div class="nav-item">
+      <i class="mdi mdi-trophy-variant-outline" style="color: rgba(7,44,217,1)"></i>
+      Leaderboard
+    </div>
+    <div class="h-px bg-gray-100 my-2"></div>
+    <a href="clam.html" class="nav-item block">
+      <i class="mdi mdi-circle-slice-8 text-teal-500"></i>
+      Open a Clam
+    </a>
+  </nav>
+
+  <!-- User area -->
+  <div class="px-3 py-3 border-t border-gray-100">
+    <div class="flex items-center gap-3 px-2">
+      <div class="w-8 h-8 rounded-full bg-teal-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">C</div>
+      <div class="min-w-0">
+        <div class="text-sm font-semibold text-gray-900 truncate">Clam User</div>
+        <div class="text-xs text-gray-500 truncate">clam@companyclam.com</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ── MAIN CONTENT ──────────────────────────────────────────── -->
+<main class="flex-1 overflow-y-auto bg-gray-50">
+  <div class="max-w-6xl mx-auto px-6 py-6">
+
+    <!-- Header -->
+    <div class="flex items-center gap-4 mb-6">
+      <h1 id="greeting" class="text-2xl font-black text-gray-900"></h1>
+      <button onclick="location.reload()" class="ml-2 flex items-center gap-1.5 text-xs font-medium text-gray-500 bg-white border border-gray-200 px-3 py-1.5 rounded-lg hover:bg-gray-50 transition-colors">
+        <i class="mdi mdi-refresh"></i> Refresh
+      </button>
+      <span class="text-xs text-gray-400" id="lastRefresh"></span>
+    </div>
+
+    <!-- ── ROW 1: Jump Back In ── -->
+    <section class="mb-6">
+      <div class="widget-header">
+        <div class="widget-icon" style="background:rgba(255,208,0,0.2); color:rgba(153,125,0,1)"><i class="mdi mdi-history"></i></div>
+        <span class="widget-title">Recently Opened Clams</span>
+      </div>
+      <div class="jbi-scroll">
+        <div class="jbi-card">
+          <div class="jbi-card-img" style="background:#c8e6f5">🔨</div>
+          <div class="jbi-card-body"><div class="jbi-card-title">Pearl Installation – Malibu</div><div class="jbi-card-sub">Opened 2h ago</div></div>
+        </div>
+        <div class="jbi-card">
+          <div class="jbi-card-img" style="background:#d4edda">🌊</div>
+          <div class="jbi-card-body"><div class="jbi-card-title">Tide Gate Repair – Reef</div><div class="jbi-card-sub">Opened 5h ago</div></div>
+        </div>
+        <div class="jbi-card">
+          <div class="jbi-card-img" style="background:#f8d7da">🪨</div>
+          <div class="jbi-card-body"><div class="jbi-card-title">Coral Reinforcement – S7</div><div class="jbi-card-sub">Opened yesterday</div></div>
+        </div>
+        <div class="jbi-card">
+          <div class="jbi-card-img" style="background:#e8d5f5">🐚</div>
+          <div class="jbi-card-body"><div class="jbi-card-title">Shell Renovation – Open Concept</div><div class="jbi-card-sub">Opened 3d ago</div></div>
+        </div>
+        <div class="jbi-card">
+          <div class="jbi-card-img" style="background:#fff3cd">🦀</div>
+          <div class="jbi-card-body"><div class="jbi-card-title">Barnacle Removal – Historic</div><div class="jbi-card-sub">Opened 1w ago</div></div>
+        </div>
+        <div class="jbi-card">
+          <div class="jbi-card-img" style="background:#d1ecf1">🏗️</div>
+          <div class="jbi-card-body"><div class="jbi-card-title">Seabed Foundation – New Build</div><div class="jbi-card-sub">Opened 1w ago</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ROW 2: Recent Photos ── -->
+    <section class="mb-8">
+      <div class="widget-header">
+        <div class="widget-icon" style="background:rgba(0,144,108,0.1); color:rgba(0,144,108,1)"><i class="mdi mdi-image-outline"></i></div>
+        <span class="widget-title">Recent Clam Documentation</span>
+        <button class="widget-view-all">View All</button>
+      </div>
+      <div class="photo-scroll">
+        <div class="photo-thumb-big" style="background:#c8e6f5">🌊</div>
+        <div class="photo-thumb-big" style="background:#d4edda">🐚</div>
+        <div class="photo-thumb-big" style="background:#e8d5f5">🦪</div>
+        <div class="photo-thumb-big" style="background:#fff3cd">🔨</div>
+        <div class="photo-thumb-big" style="background:#f8d7da">🪨</div>
+        <div class="photo-thumb-big" style="background:#d1ecf1">🌿</div>
+        <div class="photo-thumb-big" style="background:#fde8d8">🦀</div>
+        <div class="photo-thumb-big" style="background:#e2f0d9">🐠</div>
+        <div class="photo-thumb-big" style="background:#c8e6f5">🌊</div>
+        <div class="photo-thumb-big" style="background:#e8d5f5">🐚</div>
+      </div>
+    </section>
+
+    <!-- ── WIDGET GRID ── -->
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+      <!-- Recent Projects -->
+      <section>
+        <div class="widget-header">
+          <div class="widget-icon" style="background:rgba(246,128,255,0.1); color:rgba(246,128,255,1)"><i class="mdi mdi-map-marker-outline"></i></div>
+          <span class="widget-title">Recent Projects</span>
+          <button class="widget-view-all">View All</button>
+        </div>
+        <div class="widget-card">
+          <div class="widget-row">
+            <div class="widget-thumb">🐚</div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Pearl Installation – Malibu</div>
+              <div class="widget-row-sub">Pacific Shellworks</div>
+              <div class="widget-row-meta">Updated 2h ago</div>
+            </div>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div class="widget-row">
+            <div class="widget-thumb">🌊</div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Tide Gate Repair – Reef District</div>
+              <div class="widget-row-sub">DeepFix LLC</div>
+              <div class="widget-row-meta">Updated 5h ago</div>
+            </div>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div class="widget-row">
+            <div class="widget-thumb">🪨</div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Barnacle Removal – Historic</div>
+              <div class="widget-row-sub">Coastal Scrape Co.</div>
+              <div class="widget-row-meta">Updated 1d ago</div>
+            </div>
+            <span class="badge badge-yellow">On Hold</span>
+          </div>
+          <div class="widget-row">
+            <div class="widget-thumb">🐠</div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Shell Renovation – Open Concept</div>
+              <div class="widget-row-sub">ShellCraft Bros</div>
+              <div class="widget-row-meta">Updated 3d ago</div>
+            </div>
+            <span class="badge badge-blue">New</span>
+          </div>
+          <div class="widget-row">
+            <div class="widget-thumb">🔴</div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Coral Reinforcement – Sector 7</div>
+              <div class="widget-row-sub">ReefStrong</div>
+              <div class="widget-row-meta">Updated 1w ago</div>
+            </div>
+            <span class="badge badge-red">Clamped</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Assigned to Clam -->
+      <section>
+        <div class="widget-header">
+          <div class="widget-icon" style="background:rgba(255,75,0,0.1); color:rgba(255,75,0,1)"><i class="mdi mdi-clipboard-account-outline"></i></div>
+          <span class="widget-title">Assigned to Clam</span>
+        </div>
+        <div class="widget-card">
+          <!-- Tabs -->
+          <div class="flex gap-2 mb-3">
+            <button class="chip-tab active" onclick="switchTab(this,'tasks')">Tasks (4)</button>
+            <button class="chip-tab" onclick="switchTab(this,'checklists')">Checklists (2)</button>
+            <button class="chip-tab" onclick="switchTab(this,'projects')">Projects (3)</button>
+          </div>
+          <div id="tab-tasks">
+            <div class="widget-row" style="align-items:flex-start">
+              <i class="mdi mdi-circle-outline text-gray-300 text-xl mt-0.5 flex-shrink-0"></i>
+              <div class="min-w-0"><div class="widget-row-title" style="white-space:normal">Document pre-pour conditions at tide gate</div><div class="widget-row-sub">Tide Gate Repair – Reef District</div></div>
+            </div>
+            <div class="widget-row" style="align-items:flex-start">
+              <i class="mdi mdi-circle-outline text-gray-300 text-xl mt-0.5 flex-shrink-0"></i>
+              <div class="min-w-0"><div class="widget-row-title" style="white-space:normal">Submit barnacle count report to EPA</div><div class="widget-row-sub">Barnacle Removal – Historic</div></div>
+            </div>
+            <div class="widget-row" style="align-items:flex-start">
+              <i class="mdi mdi-circle-outline text-gray-300 text-xl mt-0.5 flex-shrink-0"></i>
+              <div class="min-w-0"><div class="widget-row-title" style="white-space:normal">Verify tide window for Thursday pour</div><div class="widget-row-sub">Seabed Foundation – New Build</div></div>
+            </div>
+            <div class="widget-row" style="align-items:flex-start">
+              <i class="mdi mdi-circle-outline text-gray-300 text-xl mt-0.5 flex-shrink-0"></i>
+              <div class="min-w-0"><div class="widget-row-title" style="white-space:normal">Call client re: open-concept structural concerns</div><div class="widget-row-sub">Shell Renovation – Open Concept</div></div>
+            </div>
+          </div>
+          <div id="tab-checklists" class="hidden">
+            <div class="widget-row">
+              <div class="progress-ring">
+                <svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="none" stroke="#e5e7eb" stroke-width="5"/><circle cx="24" cy="24" r="19" fill="none" stroke="#0d9488" stroke-width="5" stroke-dasharray="119.4" stroke-dashoffset="95.5" stroke-linecap="round"/></svg>
+                <div class="progress-ring-label">20%</div>
+              </div>
+              <div class="min-w-0 flex-1"><div class="widget-row-title">Pearl Installation Checklist</div><div class="widget-row-sub">Pearl Installation – Malibu</div><div class="widget-row-meta">4 of 20 complete</div></div>
+            </div>
+            <div class="widget-row">
+              <div class="progress-ring">
+                <svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="none" stroke="#e5e7eb" stroke-width="5"/><circle cx="24" cy="24" r="19" fill="none" stroke="#22c55e" stroke-width="5" stroke-dasharray="119.4" stroke-dashoffset="0" stroke-linecap="round"/></svg>
+                <div class="progress-ring-label">100%</div>
+              </div>
+              <div class="min-w-0 flex-1"><div class="widget-row-title">Pre-Pour Inspection</div><div class="widget-row-sub">Tide Gate Repair – Reef District</div><div class="widget-row-meta">20 of 20 complete</div></div>
+            </div>
+          </div>
+          <div id="tab-projects" class="hidden">
+            <div class="widget-row">
+              <div class="widget-thumb">🐚</div>
+              <div class="min-w-0"><div class="widget-row-title">Pearl Installation – Malibu</div><div class="widget-row-sub">Updated 2h ago</div></div>
+            </div>
+            <div class="widget-row">
+              <div class="widget-thumb">🌊</div>
+              <div class="min-w-0"><div class="widget-row-title">Tide Gate Repair – Reef District</div><div class="widget-row-sub">Updated 5h ago</div></div>
+            </div>
+            <div class="widget-row">
+              <div class="widget-thumb">🏗️</div>
+              <div class="min-w-0"><div class="widget-row-title">Seabed Foundation – New Build</div><div class="widget-row-sub">Updated 1d ago</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Checklists -->
+      <section>
+        <div class="widget-header">
+          <div class="widget-icon" style="background:rgba(9,103,210,0.1); color:rgba(9,103,210,1)"><i class="mdi mdi-clipboard-check-outline"></i></div>
+          <span class="widget-title">Recent Checklists</span>
+          <button class="widget-view-all" onclick="window.location='clam.html'">View All</button>
+        </div>
+        <div class="widget-card">
+          <div class="widget-row">
+            <div class="progress-ring">
+              <svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="none" stroke="#e5e7eb" stroke-width="5"/><circle cx="24" cy="24" r="19" fill="none" stroke="#0d9488" stroke-width="5" stroke-dasharray="119.4" stroke-dashoffset="95.5" stroke-linecap="round"/></svg>
+              <div class="progress-ring-label">20%</div>
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Pearl Installation Checklist</div>
+              <div class="widget-row-sub">Pearl Installation – Malibu</div>
+              <div class="widget-row-meta">4 of 20 complete</div>
+            </div>
+          </div>
+          <div class="widget-row">
+            <div class="progress-ring">
+              <svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="none" stroke="#e5e7eb" stroke-width="5"/><circle cx="24" cy="24" r="19" fill="none" stroke="#22c55e" stroke-width="5" stroke-dasharray="119.4" stroke-dashoffset="0" stroke-linecap="round"/></svg>
+              <div class="progress-ring-label">100%</div>
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Pre-Pour Inspection</div>
+              <div class="widget-row-sub">Tide Gate Repair – Reef District</div>
+              <div class="widget-row-meta">20 of 20 complete</div>
+            </div>
+          </div>
+          <div class="widget-row">
+            <div class="progress-ring">
+              <svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="none" stroke="#e5e7eb" stroke-width="5"/><circle cx="24" cy="24" r="19" fill="none" stroke="#0d9488" stroke-width="5" stroke-dasharray="119.4" stroke-dashoffset="59.7" stroke-linecap="round"/></svg>
+              <div class="progress-ring-label">50%</div>
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Structural Assessment – Coral</div>
+              <div class="widget-row-sub">Coral Reinforcement – Sector 7</div>
+              <div class="widget-row-meta">10 of 20 complete</div>
+            </div>
+          </div>
+          <div class="widget-row">
+            <div class="progress-ring">
+              <svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="none" stroke="#e5e7eb" stroke-width="5"/><circle cx="24" cy="24" r="19" fill="none" stroke="#0d9488" stroke-width="5" stroke-dasharray="119.4" stroke-dashoffset="107.5" stroke-linecap="round"/></svg>
+              <div class="progress-ring-label">10%</div>
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Shell Renovation Walkthrough</div>
+              <div class="widget-row-sub">Shell Renovation – Open Concept</div>
+              <div class="widget-row-meta">2 of 20 complete</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Starred Clams -->
+      <section>
+        <div class="widget-header">
+          <div class="widget-icon" style="background:rgba(255,208,0,0.2); color:rgba(153,125,0,1)"><i class="mdi mdi-star-outline"></i></div>
+          <span class="widget-title">Starred Clams</span>
+        </div>
+        <div class="widget-card">
+          <div class="widget-row">
+            <div class="widget-thumb">🐚</div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Pearl Installation – Malibu</div>
+              <div class="widget-row-sub">Pacific Shellworks</div>
+              <div class="widget-row-meta">47 photos · $42,000 clams</div>
+            </div>
+            <i class="mdi mdi-star text-yellow-400 text-lg flex-shrink-0"></i>
+          </div>
+          <div class="widget-row">
+            <div class="widget-thumb">🔴</div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Coral Reinforcement – Sector 7</div>
+              <div class="widget-row-sub">ReefStrong</div>
+              <div class="widget-row-meta">203 photos · $91,000 clams</div>
+            </div>
+            <i class="mdi mdi-star text-yellow-400 text-lg flex-shrink-0"></i>
+          </div>
+          <div class="py-8 text-center text-gray-400 text-sm">
+            <i class="mdi mdi-star-outline text-4xl block mb-2 text-gray-300"></i>
+            Star a project to see it here.<br/>Or just add more clams.
+          </div>
+        </div>
+      </section>
+
+      <!-- Top Clamers -->
+      <section>
+        <div class="widget-header">
+          <div class="widget-icon" style="background:rgba(7,44,217,0.1); color:rgba(7,44,217,1)"><i class="mdi mdi-trophy-variant-outline"></i></div>
+          <span class="widget-title">Top Clamers</span>
+          <button class="widget-view-all">View All</button>
+        </div>
+        <div class="widget-card">
+          <div class="leader-row">
+            <div class="text-sm font-bold text-gray-400 w-4">1</div>
+            <div class="leader-avatar" style="background:#f59e0b">🦀</div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Derek M.</div>
+              <div class="leader-bar-track mt-1"><div class="leader-bar-fill" style="width:100%"></div></div>
+            </div>
+            <div class="text-sm font-bold text-gray-700 flex-shrink-0">142</div>
+          </div>
+          <div class="leader-row">
+            <div class="text-sm font-bold text-gray-400 w-4">2</div>
+            <div class="leader-avatar" style="background:#6366f1">🐙</div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Sandra P.</div>
+              <div class="leader-bar-track mt-1"><div class="leader-bar-fill" style="width:69%"></div></div>
+            </div>
+            <div class="text-sm font-bold text-gray-700 flex-shrink-0">98</div>
+          </div>
+          <div class="leader-row">
+            <div class="text-sm font-bold text-gray-400 w-4">3</div>
+            <div class="leader-avatar" style="background:#0d9488">🐠</div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Gary B.</div>
+              <div class="leader-bar-track mt-1"><div class="leader-bar-fill" style="width:61%"></div></div>
+            </div>
+            <div class="text-sm font-bold text-gray-700 flex-shrink-0">87</div>
+          </div>
+          <div class="leader-row">
+            <div class="text-sm font-bold text-gray-400 w-4">4</div>
+            <div class="leader-avatar" style="background:#ec4899">🦑</div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Maria O.</div>
+              <div class="leader-bar-track mt-1"><div class="leader-bar-fill" style="width:50%"></div></div>
+            </div>
+            <div class="text-sm font-bold text-gray-700 flex-shrink-0">71</div>
+          </div>
+          <div class="leader-row">
+            <div class="text-sm font-bold text-gray-400 w-4">5</div>
+            <div class="leader-avatar" style="background:#64748b">🐡</div>
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Tommy B.</div>
+              <div class="leader-bar-track mt-1"><div class="leader-bar-fill" style="width:38%"></div></div>
+            </div>
+            <div class="text-sm font-bold text-gray-700 flex-shrink-0">54</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Clam Payments -->
+      <section>
+        <div class="widget-header">
+          <div class="widget-icon" style="background:rgba(141,249,25,0.2); color:rgba(79,149,4,1)"><i class="mdi mdi-currency-usd"></i></div>
+          <span class="widget-title">Clam Payments</span>
+          <button class="widget-view-all">View All</button>
+        </div>
+        <div class="widget-card">
+          <div class="payment-row">
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Invoice #CL-4821</div>
+              <div class="widget-row-sub">Pearl Installation – Malibu</div>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <div class="text-sm font-bold text-gray-900">$42,000</div>
+              <span class="badge badge-green">Paid</span>
+            </div>
+          </div>
+          <div class="payment-row">
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Invoice #CL-4820</div>
+              <div class="widget-row-sub">Barnacle Removal – Historic</div>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <div class="text-sm font-bold text-gray-900">$8,500</div>
+              <span class="badge badge-yellow">Pending</span>
+            </div>
+          </div>
+          <div class="payment-row">
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Invoice #CL-4819</div>
+              <div class="widget-row-sub">Sandbar Leveling – Tidal Flats</div>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <div class="text-sm font-bold text-gray-900">$11,200</div>
+              <span class="badge badge-green">Paid</span>
+            </div>
+          </div>
+          <div class="payment-row">
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Invoice #CL-4818</div>
+              <div class="widget-row-sub">Tide Gate Repair – Reef District</div>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <div class="text-sm font-bold text-gray-900">$23,000</div>
+              <span class="badge badge-yellow">Pending</span>
+            </div>
+          </div>
+          <div class="payment-row">
+            <div class="min-w-0 flex-1">
+              <div class="widget-row-title">Invoice #CL-4817</div>
+              <div class="widget-row-sub">Coral Reinforcement – Sector 7</div>
+            </div>
+            <div class="text-right flex-shrink-0">
+              <div class="text-sm font-bold text-gray-900">$91,000</div>
+              <span class="badge badge-red">Disputed</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /widget grid -->
+  </div><!-- /max-w -->
+</main>
+
+<!-- ── CLAMERA MODAL ───────────────────────────────────────── -->
+<div id="cameraModal" class="hidden fixed inset-0 z-50 flex flex-col select-none">
+  <div class="flex items-center justify-between px-5 pt-3 pb-1 z-10">
+    <span id="cameraTime" class="text-white text-sm font-semibold tracking-tight">9:41</span>
+    <div class="flex items-center gap-1.5 text-white text-xs">
+      <svg width="16" height="11" viewBox="0 0 16 11" fill="white" opacity="0.9"><rect x="0" y="4" width="3" height="7" rx="0.5"/><rect x="4.5" y="2.5" width="3" height="8.5" rx="0.5"/><rect x="9" y="1" width="3" height="10" rx="0.5"/><rect x="13.5" y="0" width="2.5" height="11" rx="0.5"/></svg>
+      <span class="text-white text-xs">🔋</span>
+    </div>
+  </div>
+  <div class="flex-1 relative overflow-hidden">
+    <img id="cameraImg" src="" alt="" class="absolute inset-0 w-full h-full object-cover"/>
+    <div id="cameraLoading" class="absolute inset-0 bg-slate-900 flex items-center justify-center">
+      <div class="text-center text-slate-400"><div class="text-5xl mb-3 animate-pulse">🐚</div><div class="text-sm">Searching for clams…</div></div>
+    </div>
+    <div class="grid-lines"></div>
+    <div id="focusBox" class="focus-box"></div>
+    <div id="clamDetected" class="absolute top-[calc(50%-56px)] left-1/2 -translate-x-1/2 text-yellow-400 text-xs font-bold tracking-widest opacity-0 transition-opacity whitespace-nowrap">CLAM DETECTED ✓</div>
+    <div class="absolute top-4 left-4 text-white text-xs font-mono space-y-0.5 drop-shadow-lg"><div id="camISO">ISO 400</div><div id="camAperture">f/2.8</div><div id="camShutter">1/125s</div></div>
+    <div class="absolute top-4 right-4 text-white text-xs text-right drop-shadow-lg"><div>📍 Ocean Floor, CA</div><div id="cameraDepth" class="text-white/70">40 fathoms</div></div>
+    <div class="absolute bottom-3 left-4 flex items-center gap-1.5 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1"><span class="text-sm">🐚</span><span class="text-white text-xs font-semibold tracking-wide">CLAMERA</span></div>
+    <div class="absolute bottom-3 right-4 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1"><span id="photoCountBadge" class="text-white text-xs font-semibold">0 clams documented</span></div>
+    <div id="cameraFlash" class="absolute inset-0 bg-white opacity-0 pointer-events-none"></div>
+    <div id="cameraToast" class="hidden absolute bottom-16 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-sm text-white text-xs font-semibold px-4 py-2 rounded-full whitespace-nowrap"></div>
+  </div>
+  <div class="bg-black/80 backdrop-blur-sm pt-3 pb-1">
+    <div class="flex justify-center gap-6 text-xs font-semibold tracking-widest">
+      <span class="text-slate-600">VIDEO</span><span class="text-slate-600">PHOTO</span><span class="text-yellow-400 border-b border-yellow-400 pb-1">CLAM</span><span class="text-slate-600">PORTRAIT</span><span class="text-slate-600">MORE</span>
+    </div>
+  </div>
+  <div class="bg-black flex items-center justify-between px-10 py-6">
+    <div class="camera-thumb">
+      <div id="thumbEmpty" class="w-full h-full flex items-center justify-center text-slate-600 text-xl">🐚</div>
+      <img id="thumbImg" src="" alt="" class="hidden w-full h-full object-cover"/>
+    </div>
+    <button class="shutter-btn" onclick="takePhoto()"></button>
+    <button onclick="closeCamera()" class="w-[52px] h-[52px] rounded-full bg-slate-800 flex items-center justify-center text-white text-lg hover:bg-slate-700 transition-colors">✕</button>
+  </div>
+</div>
+
+<script>
+  // ── Greeting ──
+  const greet = () => {
+    const h = new Date().getHours();
+    const name = h < 12 ? 'morning' : h < 18 ? 'afternoon' : 'evening';
+    document.getElementById('greeting').textContent = `Good ${name}, Clam.`;
+    const now = new Date();
+    document.getElementById('lastRefresh').textContent =
+      `Last refreshed at ${now.getHours() % 12 || 12}:${String(now.getMinutes()).padStart(2,'0')} ${now.getHours() >= 12 ? 'PM' : 'AM'}`;
+  };
+  greet();
+
+  // ── Tabs ──
+  function switchTab(btn, tab) {
+    document.querySelectorAll('.chip-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    ['tasks','checklists','projects'].forEach(t => {
+      const el = document.getElementById('tab-' + t);
+      if (el) el.classList.toggle('hidden', t !== tab);
+    });
+  }
+
+  // ── Clamera ──
+  let clamImageQueue = [], queueLoading = false, photoCount = 0;
+  const CAM_STATS = [['ISO 200','f/1.8','1/250s'],['ISO 400','f/2.8','1/125s'],['ISO 800','f/4.0','1/60s'],['ISO 100','f/1.4','1/500s']];
+  const DEPTHS   = ['28 fathoms','40 fathoms','12 fathoms','55 fathoms','6 fathoms'];
+  const TOASTS   = ['🐚 Clam documented.','📸 Added to project.','🦪 Pearl-worthy shot.','✓ Field team notified.','📍 Location tagged: Ocean Floor.','🌊 Nice. Very nice.','🐠 A fish photo-bombed. We cropped it.','💰 That clam is worth at least $4.'];
+
+  async function fetchClamImages() {
+    if (queueLoading) return; queueLoading = true;
+    const terms = ['clam shellfish food','oyster shell food','mussel shellfish','scallop seafood shell'];
+    const term  = terms[Math.floor(Math.random() * terms.length)];
+    const url   = `https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(term)}&gsrnamespace=6&prop=imageinfo&iiprop=url|size&format=json&origin=*&gsrlimit=40`;
+    try {
+      const res  = await fetch(url);
+      const data = await res.json();
+      const urls = Object.values(data?.query?.pages || {})
+        .map(p => p?.imageinfo?.[0])
+        .filter(i => i && i.url && !i.url.match(/\.(svg|pdf|ogg|ogv|webm|tif)$/i) && (i.width || 999) > 400)
+        .map(i => i.url);
+      clamImageQueue.push(...urls);
+    } catch(e) {}
+    queueLoading = false;
+  }
+
+  function nextClamUrl() {
+    if (clamImageQueue.length < 5) fetchClamImages();
+    return clamImageQueue.length ? clamImageQueue.shift() : null;
+  }
+
+  async function loadNextClam() {
+    const img  = document.getElementById('cameraImg');
+    const load = document.getElementById('cameraLoading');
+    load.classList.remove('hidden'); img.classList.add('opacity-0');
+    if (clamImageQueue.length === 0) await fetchClamImages();
+    const url = nextClamUrl();
+    if (!url) { load.innerHTML = '<div class="text-center text-slate-400"><div class="text-7xl mb-3">🐚</div><div class="text-sm">No clams found at this depth.</div></div>'; return; }
+    const tmp = new Image();
+    tmp.onload = () => {
+      img.src = url; img.classList.remove('opacity-0'); load.classList.add('hidden');
+      const box = document.getElementById('focusBox'), det = document.getElementById('clamDetected');
+      box.classList.remove('focus-animate'); void box.offsetWidth; box.classList.add('focus-animate');
+      det.style.opacity = '1'; setTimeout(() => { det.style.opacity = '0'; }, 1400);
+      const s = CAM_STATS[Math.floor(Math.random()*CAM_STATS.length)];
+      document.getElementById('camISO').textContent = s[0]; document.getElementById('camAperture').textContent = s[1]; document.getElementById('camShutter').textContent = s[2];
+      document.getElementById('cameraDepth').textContent = DEPTHS[Math.floor(Math.random()*DEPTHS.length)];
+    };
+    tmp.onerror = () => { loadNextClam(); };
+    tmp.src = url;
+  }
+
+  function openCamera() {
+    document.getElementById('cameraModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    fetchClamImages().then(() => loadNextClam());
+  }
+  function closeCamera() { document.getElementById('cameraModal').classList.add('hidden'); document.body.style.overflow = ''; }
+
+  function takePhoto() {
+    const flash = document.getElementById('cameraFlash');
+    flash.classList.remove('do-flash'); void flash.offsetWidth; flash.classList.add('do-flash');
+    const currentUrl = document.getElementById('cameraImg').src;
+    if (currentUrl) {
+      photoCount++;
+      document.getElementById('thumbEmpty').classList.add('hidden');
+      const t = document.getElementById('thumbImg'); t.src = currentUrl; t.classList.remove('hidden');
+      document.getElementById('photoCountBadge').textContent = `${photoCount} clam${photoCount===1?'':'s'} documented`;
+    }
+    const toast = document.getElementById('cameraToast');
+    toast.textContent = TOASTS[Math.floor(Math.random()*TOASTS.length)];
+    toast.classList.remove('hidden','toast-anim'); void toast.offsetWidth; toast.classList.add('toast-anim');
+    setTimeout(() => toast.classList.add('hidden'), 1900);
+    setTimeout(() => loadNextClam(), 300);
+  }
+</script>
+</body>
+</html>

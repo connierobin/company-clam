@@ -298,9 +298,9 @@
       clicks++;
       const progress = Math.min(clicks / MAX_CLICKS, 1);
 
-      // Update top shell rotation: 0° → -155°
-      const angle = -155 * progress;
-      document.getElementById('topShell').setAttribute('transform', `rotate(${angle} 200 268)`);
+      // Update top shell rotation: 0° → -70°
+      const angle = -70 * progress;
+      document.getElementById('topShell').setAttribute('transform', `rotate(${angle} 80 268)`);
 
       // Update pearl size: starts appearing at 15%, full at 100%
       const pearlProgress = Math.max(0, (progress - 0.15) / 0.85);
@@ -373,7 +373,7 @@
 
     function resetClam() {
       clicks = 0; done = false; nextMilestone = 0;
-      document.getElementById('topShell').style.transform = 'rotate(0deg)';
+      document.getElementById('topShell').setAttribute('transform', 'rotate(0 80 268)');
       document.getElementById('pearl').setAttribute('r', 0);
       document.getElementById('pearlHighlight').setAttribute('r', 0);
       document.getElementById('progressBar').style.width = '0%';
